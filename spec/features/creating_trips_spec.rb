@@ -25,8 +25,8 @@ feature 'Creating Trips' do
     within '#new_trip_form' do
       fill_in 'Trip Title:', with: 'Example Trip'
       fill_in 'Hashtag:', with: '#ExampleHashTag'
-      fill_in 'Start', with: '03/01/2013'
-      fill_in 'End', with: '03/03/2013'
+      fill_in 'Start', with: (Time.now + 30.days).strftime("%m/%d/%y")
+      fill_in 'End', with: (Time.now + 34.days).strftime("%m/%d/%y")
       fill_in 'Location', with: 'Anywhere, USA'
       select 'private', from: 'Privacy'
       check 'Hide Guestlist?'
@@ -66,7 +66,7 @@ feature 'Creating Trips' do
     # skip end date
     within '#new_trip_form' do
       fill_in 'Trip Title:', with: 'Example Trip'
-      fill_in 'Start', with: '03/01/2013'
+      fill_in 'Start', with: (Time.now + 30.days).strftime("%m/%d/%y")
       click_link_or_button 'Create'
     end
 
@@ -76,8 +76,8 @@ feature 'Creating Trips' do
     # skip location
     within '#new_trip_form' do
       fill_in 'Trip Title:', with: 'Example Trip'
-      fill_in 'Start', with: '03/03/2013'
-      fill_in 'End', with: '03/06/2013'
+      fill_in 'Start', with: (Time.now + 30.days).strftime("%m/%d/%y")
+      fill_in 'End', with: (Time.now + 34.days).strftime("%m/%d/%y")
       click_link_or_button 'Create'
     end
 
@@ -87,8 +87,8 @@ feature 'Creating Trips' do
     # input all required fields
     within '#new_trip_form' do
       fill_in 'Trip Title:', with: 'Example Trip'
-      fill_in 'Start', with: '03/03/2013'
-      fill_in 'End', with: '03/06/2013'
+      fill_in 'Start', with: (Time.now + 30.days).strftime("%m/%d/%y")
+      fill_in 'End', with: (Time.now + 34.days).strftime("%m/%d/%y")
       fill_in 'Location', with: 'Anywhere, USA'
       click_link_or_button 'Create'
     end

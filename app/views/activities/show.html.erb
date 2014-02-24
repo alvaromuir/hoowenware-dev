@@ -3,6 +3,15 @@
   <div>
     <%= link_to "Update this activity", edit_trip_activity_path(:id => @activity.id,
                                                                 :trip_id => @trip.id) %>
+    | <% if @activity.is_active? %>
+        <%= link_to "Cancel this activity", 
+                      cancel_trip_activity_path(:id => @activity.id,
+                                                      :trip_id => @trip.id) %>
+      <% else %>
+        <%= link_to "Reactivate this activity", 
+                      reactivate_trip_activity_path(:id => @activity.id,
+                                                      :trip_id => @trip.id) %>
+      <% end %>
   </div>
   <% end %>
 <% end %>

@@ -9,7 +9,7 @@ feature "Editing Activities feature" do
 
   before do
     login_as(user, :scope => :user)
-    visit trip_path(trip.id)
+    visit trip_path(trip)
   end
 
   after do

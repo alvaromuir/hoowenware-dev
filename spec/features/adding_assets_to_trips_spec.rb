@@ -47,7 +47,7 @@ feature "Uploading Assets to Trips" do
   end
 
   scenario 'adding assets to a trip', js: true do
-    visit trip_path(trip.id)
+    visit trip_path(trip)
 
     click_link_or_button 'Add a photo'
     attach_file "File #1", Rails.root.join("spec/fixtures/test-upload.jpg")

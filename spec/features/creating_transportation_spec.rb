@@ -5,11 +5,11 @@ require "spec_helper"
 feature "Creating Transportation feature" do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:trip) { FactoryGirl.create(:trip, user: user) }
-  let!(:rsvp) { FactoryGirl.create(:rsvp, user: user, response: 'yes') }
+  let!(:rsvp) { FactoryGirl.create(:rsvp, trip: trip, user: user, response: 'yes') }
 
   before do
     login_as(user, :scope => :user)
-    visit trip_path(trip.id)
+    visit trip_path(trip)
   end
 
   after do
@@ -20,7 +20,7 @@ feature "Creating Transportation feature" do
   scenario 'creating a transportation record' do
     
     within '.going' do
-      click_link_or_button 'Add Travel Itenerary'
+      click_link_or_button 'Add travel itenerary'
     end
 
     select 'airline', from: 'Travel Type:'
@@ -41,7 +41,7 @@ feature "Creating Transportation feature" do
     expect(page).to have_content('Your travel arrangements have been submitted.')
 
     within '.going' do
-      expect(page).to have_content('Update Travel Itenerary')
+      expect(page).to have_content('View travel itenerary')
     end
   end
 end

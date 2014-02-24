@@ -56,12 +56,14 @@
             <%= link_to attending.user, user_path(attending.user) %>
             <% if attending.user == current_user %>
               |
+              <span class='current_user-plans'>
               <% if @trip.travel_arrangements(current_user).present? %>
-              <%= link_to 'Update Travel Itenerary', edit_trip_transportation_path(:trip_id => @trip.id) %>
+              <%= link_to 'View travel itenerary', trip_transportation_path(:trip_id => @trip.id) %>
               <% else %>
-                <%= link_to 'Add Travel Itenerary', new_trip_transportation_path(:trip_id => @trip.id) %>
+                <%= link_to 'Add travel itenerary', new_trip_transportation_path(:trip_id => @trip.id) %>
               <% end %>
               | Room Details
+            </span>
             <% end %>
           </div>
           <% end %>

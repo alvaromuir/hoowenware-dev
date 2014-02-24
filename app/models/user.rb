@@ -103,16 +103,41 @@ class User < ActiveRecord::Base
 
   def has_links?
     @links = self.web_links
-    if @links.present?
+    if @links.count > 0
       return true
     end
     return false
   end
 
-
   def links
     @links = self.web_links
   end
+
+
+  def has_activities?
+    @activities = Activity.where(:user_id => self.id)
+    if @activities.count > 0
+      return true
+    end
+    return false
+  end
+
+  def activities
+    @activities = Activity.where(:user_id => self.id)
+  end
+
+  def has_travel_plans?
+    @transportations = Transportation.where(:user_id => self.id)
+    if @transportations.count > 0
+      return true
+    end
+    return false
+  end
+
+  def travel_plans
+    @transportations = Transportation.where(:user_id => self.id)
+  end
+
 
   private
     # quick method to see what the oauth provider returns

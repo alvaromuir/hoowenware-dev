@@ -8,10 +8,11 @@ FactoryGirl.define do
     deposit_required true
     notes'An Example transportation with example notes'
     departure_city 'NYC'
-    departure_date '03/02/14'
-    departure_time '03/02/14 12:00PM'
+    departure_date Time.now + 30.days
+    departure_time Time.now + 30.days - (Time.now.min * 60)
     arrival_city 'Anywhere, USA'
-    arrival_date '03/02/14'
-    arrival_time '03/02/14 3:30PM'
+    arrival_date Time.now + 30.days
+    arrival_time Time.now + 30.days - (Time.now.min * 60) + 4.hours
+    is_active true
   end
 end

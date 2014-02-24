@@ -27,9 +27,20 @@ HoowenwareDev::Application.routes.draw do
     end
     
     resources :posts, only: [:create]
-    resources :activities
-    resources :transportations
 
+    resources :activities do    
+      member do
+        get 'cancel'
+        get 'reactivate'
+      end
+    end
+
+    resources :transportations do    
+      member do
+        get 'cancel'
+        get 'reactivate'
+      end
+    end
   end
 
   resources :groups do

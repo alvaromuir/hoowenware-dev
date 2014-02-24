@@ -18,14 +18,14 @@ ActiveRecord::Schema.define(version: 20140224054020) do
   enable_extension "hstore"
 
   create_table "activities", force: true do |t|
-    t.string   "activity_type"
-    t.string   "name"
+    t.string   "activity_type",                  null: false
+    t.string   "name",              default: "", null: false
     t.string   "link"
     t.string   "venue"
     t.text     "address"
     t.text     "contact"
     t.float    "price"
-    t.date     "date"
+    t.date     "date",                           null: false
     t.time     "start_time"
     t.time     "end_time"
     t.text     "notes"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20140224054020) do
     t.boolean  "deposit_required"
     t.boolean  "cc_required"
     t.integer  "min_age"
+    t.string   "gender"
     t.boolean  "is_active"
     t.boolean  "is_approved"
     t.integer  "approved_by"
@@ -130,14 +131,15 @@ ActiveRecord::Schema.define(version: 20140224054020) do
   add_index "poll_responses", ["user_id"], name: "index_poll_responses_on_user_id", using: :btree
 
   create_table "polls", force: true do |t|
-    t.string   "title",                     null: false
-    t.string   "poll_type",                 null: false
+    t.string   "title",                           null: false
+    t.string   "poll_type",                       null: false
     t.date     "start_date"
     t.date     "end_date"
     t.string   "location"
+    t.string   "generic_question"
     t.text     "notes"
     t.date     "expires"
-    t.boolean  "is_active",  default: true
+    t.boolean  "is_active",        default: true
     t.integer  "trip_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -168,18 +170,19 @@ ActiveRecord::Schema.define(version: 20140224054020) do
   add_index "rsvps", ["user_id"], name: "index_rsvps_on_user_id", using: :btree
 
   create_table "transportations", force: true do |t|
-    t.string   "transportation_type"
+    t.string   "transportation_type", default: "", null: false
     t.string   "service_number"
     t.string   "seat_number"
     t.float    "price"
     t.boolean  "deposit_required"
     t.text     "notes"
-    t.string   "departure_city"
+    t.string   "departure_city",      default: "", null: false
     t.date     "departure_date"
     t.time     "departure_time"
-    t.string   "arrival_city"
+    t.string   "arrival_city",        default: "", null: false
     t.date     "arrival_date"
     t.time     "arrival_time"
+    t.boolean  "is_active"
     t.integer  "trip_id"
     t.integer  "user_id"
     t.datetime "created_at"

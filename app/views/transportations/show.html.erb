@@ -1,0 +1,70 @@
+<% if user_signed_in? %> 
+  <% if current_user.id == @transportation.user_id or current_user.is_admin? %>
+  <div>
+    <%= link_to "Update travel itenerary",
+                  edit_trip_transportation_path(:id => @transportation.id,
+                                                :trip_id => @trip.id) %>
+    | <% if @transportation.is_active? %>
+        <%= link_to "Cancel this travel itenerary", 
+                      cancel_trip_transportation_path(:id => @transportation.id,
+                                                      :trip_id => @trip.id) %>
+      <% else %>
+        <%= link_to "Reactivate this travel itenerary", 
+                      reactivate_trip_transportation_path(:id => @transportation.id,
+                                                      :trip_id => @trip.id) %>
+      <% end %>
+
+  </div>
+  <% end %>
+<% end %>
+<h4>Travel arrangements Details</h4>
+<%= @transportation.transportation_type %> tavel
+<% if @transportation.service_number %>
+  <div class="service-number">
+  Service #:<%= @transportation.service_number %>
+  </div>
+<% end %>
+<% if @transportation.seat_number%>
+  <div class="seat-number">
+  Seat Number: <%= @transportation.seat_number %>
+  </div>
+<% end %>
+<% if @transportation.price %>
+  <div class="travel-cost">
+  Cost: $<%= @transportation.price %>
+  </div>
+<% end %>
+<% if @transportation.deposit_required?%>
+  <div class="deposit-requirements">
+  Deposit Required? Yes
+  </div>
+<% else %>
+  <div class="deposit-requirements">
+  Deposit Required? No
+  </div>
+<% end %>
+
+<hr />
+<% if @transportation.notes %>
+  <div class="travel-notes">
+  Other details: <%= @transportation.notes %>
+  </div>
+<% end %>
+<div class="depature-details">
+  Leaves from: <%= @transportation.departure_city %>
+  <% if @transportation.departure_date%>
+    on: <%= @transportation.departure_date.to_date.strftime("%m/%d/%y") %>
+  <% end %>
+  <% if @transportation.departure_time%>
+   at: <%= @transportation.departure_time.to_time.strftime("%I:%m%p") %>
+  <% end %>
+</div>
+<div class="arrival-details">
+  Arrives to: <%= @transportation.arrival_city %>
+  <% if @transportation.arrival_date%>
+    on: <%= @transportation.arrival_date.to_date.strftime("%m/%d/%y") %>
+  <% end %>
+  <% if @transportation.arrival_time%>
+    at: <%= @transportation.arrival_time.to_time.strftime("%I:%m%p") %>
+  <% end %>
+</div>

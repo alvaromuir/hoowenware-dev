@@ -8,7 +8,7 @@ feature "Creating Activities feature" do
 
   before do
     login_as(user, :scope => :user)
-    visit trip_path(trip.id)
+    visit trip_path(trip)
   end
 
   after do
@@ -26,11 +26,11 @@ feature "Creating Activities feature" do
     fill_in 'Address:', with: '1313 Anywhere Drive Anywhere, USA 00000'
     fill_in 'Contact:', with: 'John Doe, johndoe@example.com'
     fill_in 'Price:', with: '9.99'
-    fill_in 'Date:', with: '03/06/14'
+    fill_in 'Date:', with: trip.start_date.strftime("%m/%d/%y")
     fill_in 'Start Time:', with: '7:00pm'
     fill_in 'End Time:', with: '10:00pm'
     fill_in 'Notes:', with: 'An example Activity'
-    fill_in 'Deadline:', with: '03/04/14'
+    fill_in 'Deadline:', with: (trip.start_date-5.days).strftime("%m/%d/%y")
     fill_in 'Tickets Available', with: 10
     check 'Deposit Required?'
     check 'Credit Card Required?'

@@ -9,7 +9,7 @@ feature "Creating Activities feature" do
 
   before do
     login_as(user, :scope => :user)
-    visit trip_activity_path(trip.id, activity.id)
+    visit trip_activity_path(trip, activity)
   end
 
   after do

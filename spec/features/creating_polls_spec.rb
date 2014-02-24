@@ -22,17 +22,17 @@ feature 'Creating a Date Poll for a Trip' do
     within '.new-trip-dates' do
       click_link 'polls'
     end
-    fill_in 'Title:', with: 'May Travel Poll'
-    fill_in 'Start:', with: '05/15/14'
-    fill_in 'End:', with: '05/16/14'
+
+    fill_in 'Title:', with: "#{(trip.start_date+30.days).strftime("%B")} Travel Poll"
+    fill_in 'Start:', with: (trip.start_date+30.days).strftime("%m/%d/%y")
+    fill_in 'End:', with: (trip.end_date+30.days).strftime("%m/%d/%y")
     fill_in 'Notes:', with: 'Mid May?'
-    fill_in 'Expires:', with: '04/01/14'
+    fill_in 'Expires:', with: (trip.end_date-10.days).strftime("%m/%d/%y")
 
     click_link_or_button 'Save'
 
-    expect(page).to have_content('May Travel Poll')
-
-    expect(page).to have_content('04/01/14')
+    expect(page).to have_content("#{(trip.start_date+30.days).strftime("%B")} Travel Poll")
+    expect(page).to have_content (trip.end_date-10.days).strftime("%m/%d/%y")
   end
 
   scenario 'creating a location poll' do
@@ -42,10 +42,15 @@ feature 'Creating a Date Poll for a Trip' do
     within '.new-trip-location' do
       click_link 'polls'
     end
-      fill_in 'Title:', with: 'Alternate Location Poll'
-      fill_in 'Location',  with:'Somewhere, anywhere else'
-      fill_in 'Notes:', with: 'Where else can we go?'
-      fill_in 'Expires:', with: '04/01/14'
-    end
+    
+    fill_in 'Title:', with: 'Alternate Location Poll'
+    fill_in 'Location',  with:'Somewhere, anywhere else'
+    fill_in 'Notes:', with: 'Where else can we go?'
+    fill_in 'Expires:', with: (trip.end_date-5.days).strftime("%m/%d/%y")
 
+    click_link_or_button 'Save'
+
+    expect(page).to have_content('Alternate Location Poll')
+    expect(page).to have_content (trip.end_date-5.days).strftime("%m/%d/%y")
+  end
 end

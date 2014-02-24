@@ -12,12 +12,13 @@ class ActivitiesController < ApplicationController
   def create
     @activity = @trip.activities.build(activity_params)
     @activity.user_id = current_user.id
+    @activity.is_active = true
     if @activity.save
       flash[:notice] = "Your activity request has been receieved and is awaiting approval."
       redirect_to @trip
     else
       flash[:alert] = "Your activity request has not been created."
-      redirect_to @trip
+      render "new"
     end
   end
 
@@ -27,14 +28,14 @@ class ActivitiesController < ApplicationController
 
   def edit
     # set_activity
-    if current_user.id != @activity.user_id
+    if current_user != @activity.user
       flash[:alert] = "You cannot make changes to this trip."
       redirect_to @trip
     end
   end
 
   def update
-    if current_user.id == @activity.user_id
+    if current_user == @activity.user
       if @activity.update(activity_params)
         flash[:notice] = "Your activity details have been updated."
         redirect_to @trip
@@ -45,6 +46,30 @@ class ActivitiesController < ApplicationController
     else
       flash[:alert] = "You cannot make changes to this activity."
       redirect_to @trip
+    end
+  end
+
+  def cancel
+    if current_user == @activity.user
+      @activity.update(is_active: false)
+
+      flash[:notice] = "Your activity has been cancelled."
+      redirect_to user_path(current_user.id)
+    else
+      flash[:alert] = "You cannot make changes to this activity."
+      redirect_to trips_path
+    end
+  end
+
+  def reactivate
+    if current_user == @activity.user
+      @activity.update(is_active: true)
+
+      flash[:notice] = "Your activity has been updated."
+      redirect_to user_path(current_user.id)
+    else
+      flash[:alert] = "You cannot make changes to this activity."
+      redirect_to trips_path
     end
   end
 

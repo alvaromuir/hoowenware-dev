@@ -10,6 +10,7 @@ class TransportationsController < ApplicationController
   def create
     @transportation = @trip.transportations.build(transportation_params)
     @transportation.user_id = current_user.id
+    @transportation.is_active = true
     if @transportation.save
       flash[:notice] = "Your travel arrangements have been submitted."
       redirect_to @trip
@@ -17,6 +18,9 @@ class TransportationsController < ApplicationController
       flash[:alert] = "Your travel arrangements have not been created."
       redirect_to @trip
     end
+  end
+
+  def show
   end
 
   def edit
@@ -42,6 +46,29 @@ class TransportationsController < ApplicationController
     end
   end
 
+  def cancel
+    if current_user == @transportation.user
+      @transportation.update(is_active: false)
+
+      flash[:notice] = "Your transportation plans have been cancelled."
+      redirect_to user_path(current_user.id)
+    else
+      flash[:alert] = "You cannot make changes to this transportation plan."
+      redirect_to trips_path
+    end
+  end
+
+  def reactivate
+    if current_user == @transportation.user
+      @transportation.update(is_active: true)
+
+      flash[:notice] = "Your transportation plans have been updated."
+      redirect_to user_path(current_user.id)
+    else
+      flash[:alert] = "You cannot make changes to this transportation plan."
+      redirect_to trips_path
+    end
+  end
   private
   
     def transportation_params

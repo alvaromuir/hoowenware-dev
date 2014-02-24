@@ -58,3 +58,58 @@
     <% end %>
   </div>
   <% end %>
+  <div>
+  <% if @user.has_travel_plans? %>
+  <hr />
+  <h4>Travel Plans</h4>
+  <div class="travel-plans">
+    <% @user.travel_plans.each do |itenerary| %>
+      <% if itenerary.is_active? %>
+        <%= link_to itenerary.transportation_type, 
+                    trip_transportation_path(:id => itenerary.id,
+                                            :trip_id => itenerary.trip_id) %>
+      <% else %>
+        <%= link_to itenerary.transportation_type, 
+                    trip_transportation_path(:id => itenerary.id,
+                                            :trip_id => itenerary.trip_id) %>
+      <% end %>
+      travel to <%= itenerary.arrival_city %> on <%= itenerary.arrival_date %>
+      | 
+      <% if itenerary.is_active? %>
+        <%= link_to "Cancel this itenerary", 
+                      cancel_trip_transportation_path(:id => itenerary.id,
+                                                      :trip_id => itenerary.trip_id) %>
+
+      <% else %>
+      <%= link_to "Reactivate this itenerary", 
+                      reactivate_trip_transportation_path(:id => itenerary.id,
+                                                      :trip_id => itenerary.trip_id) %>
+      <% end %>
+    <% end %>
+  </div>
+  <% end %>
+  </div>
+  <div>
+  <% if @user.has_activities? %>
+  <hr />
+  <h4>Activities</h4>
+  <div class="activities">
+    <% @user.activities.each do |activity| %>
+      <%= link_to activity, trip_activity_path(:id => activity.id,
+                                                :trip_id => activity.id) %>
+      on <%= activity.date %> |
+      <% if activity.is_active? %>
+        <%= link_to "Cancel this activity", 
+                    cancel_trip_activity_path(:id => activity.id,
+                                                    :trip_id => activity.trip.id) %>
+      <% else %>
+        <%= link_to "Reactivate this activity", 
+                    reactivate_trip_activity_path(:id => activity.id,
+                                                    :trip_id => activity.trip.id) %>
+      <% end %>
+    <% end %>
+  </div>
+  <% end %>
+  <div>
+
+  </div>
