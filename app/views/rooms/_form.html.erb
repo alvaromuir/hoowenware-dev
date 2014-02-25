@@ -1,0 +1,76 @@
+  <%= form_for  [@trip, @lodging, @room],
+      html: {id: 'add_lodging_room'} do |f| %>
+    <% if @room.errors.any? %>
+    <div id="error_explanation">
+      <h4>
+        <%= pluralize(@room.errors.count, "error") %> prohibited this member from being added:
+      </h4>
+      <ul>
+        <% @room.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+    <% end %>
+    <div>
+      <%= f.label :name, "Name:" %>
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.label :min_stay, "Minimum Stay:" %>
+      <%= f.text_field :min_stay%>
+    </div>
+    <div>
+      <%= f.label :price, "Price:" %>
+      <%= f.text_field :price %>
+    </div>
+    <div>
+      <%= f.label :room_type, "Room Type:" %>
+      <%= f.text_field :room_type %>
+    </div>
+    <div>
+      <%= f.label :amenities, "Amenities:" %>
+      <%= f.text_area :amenities %>
+    </div>
+    <div>
+      <%= f.label :deadline, "Deadline:" %>
+      <%= f.text_field :deadline %>
+    </div>
+    <div>
+      <%= f.label :deposit, "Deposit:" %>
+      <%= f.text_field :deposit %>
+    </div>
+    <div>
+      <%= f.label :cc_required, "Credit Card Required?" %>
+      <%= f.check_box :cc_required %>
+    </div>
+    <div>
+      <%= f.label :min_age, "Minimum Age:" %>
+      <%= f.text_field :min_age %>
+    </div>
+    <div>
+      <%= f.label :room_gender, 'Room Gender:' %>
+      <%= f.select :room_gender, [['',''], ['male', 'male'], ['female', 'female']] %>
+    </div>
+    <div>
+      <%= f.label :sleeps, "Room Sleeps:" %>
+      <%= f.text_field :sleeps %>
+    </div>
+    <div>
+      <%= f.label :notes, "Notes:" %>
+      <%= f.text_area :notes %>
+    </div>
+    <hr />
+
+    <div>
+      <div>
+        <% if @room.new_record? %>
+          <%= f.submit 'Add Room'%>
+        <% else %>
+          <%= f.submit 'Update Room'%>
+        <% end %>
+        <%= button_tag "Reset", type: :reset%>
+        <%= f.submit "Cancel"%>
+      </div>
+    </div>
+  <% end %>

@@ -34,7 +34,5 @@ feature 'Editing Profile' do
     expect(page).to have_content('Christopher')
     expect(page).to have_content('Wallace')
     expect(page).to have_content('11222')
-
   end
-
 end

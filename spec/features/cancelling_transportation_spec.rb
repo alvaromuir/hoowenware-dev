@@ -13,6 +13,7 @@ feature "Cancelling Transportations feature" do
   end
 
   after do
+    logout(:user)
     Warden.test_reset!
   end
 
@@ -27,7 +28,6 @@ feature "Cancelling Transportations feature" do
     click_link_or_button 'Cancel this travel itenerary'
 
     expect(page).to have_content('Your transportation plans have been cancelled.')
-    logout(:user)
   end
 
   scenario 'cancelling a travel plan from a users profile page' do
@@ -39,7 +39,6 @@ feature "Cancelling Transportations feature" do
     end
 
     expect(page).to have_content('Your transportation plans have been cancelled.')
-    logout(:user)
   end
 
   scenario 'non-activity owners cannot cancel a travel plan' do
@@ -51,7 +50,5 @@ feature "Cancelling Transportations feature" do
     visit cancel_trip_transportation_path(:id => transportation.id,
                                                   :trip_id => trip.id)
     expect(page).to have_content('You cannot make changes to this transportation plan.')
-    logout(:user)
   end
-  
 end

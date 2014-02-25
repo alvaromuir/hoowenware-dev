@@ -13,6 +13,9 @@ feature 'Administering Group Members feature' do
   before do
   end
 
+  after do
+  end
+
   scenario 'authorized users can approve group memberships' do
     sign_in_as!(user)
     visit group_url(group)

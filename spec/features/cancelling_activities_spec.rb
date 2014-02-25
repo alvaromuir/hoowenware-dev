@@ -13,6 +13,7 @@ feature "Cancelling Activities feature" do
   end
 
   after do
+    logout(:user)
     Warden.test_reset!
   end
 
@@ -27,7 +28,6 @@ feature "Cancelling Activities feature" do
     click_link_or_button 'Cancel this activity'
 
     expect(page).to have_content('Your activity has been cancelled.')
-    logout(:user)
   end
 
   scenario 'cancelling an activity from user profile page' do
@@ -39,7 +39,6 @@ feature "Cancelling Activities feature" do
     end
 
     expect(page).to have_content('Your activity has been cancelled.')
-    logout(:user)
   end
 
   scenario 'non-activity owners cannot cancel an activity' do
@@ -55,7 +54,6 @@ feature "Cancelling Activities feature" do
     visit cancel_trip_activity_path(:id => activity.id,
                                     :trip_id => trip.id)
     expect(page).to have_content('You cannot make changes to this activity.')
-    logout(:user)
   end
   
 end

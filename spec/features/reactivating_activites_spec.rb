@@ -53,5 +53,4 @@ feature "Reactivating Activities feature" do
     expect(page).to have_content('You cannot make changes to this activity.')
     logout(:user)
   end
-  
 end

@@ -13,6 +13,7 @@ feature "Cancelling Lodging feature" do
   end
 
   after do
+    logout(:user)
     Warden.test_reset!
   end
 
@@ -27,7 +28,6 @@ feature "Cancelling Lodging feature" do
     click_link_or_button 'Cancel this lodging itenerary'
 
     expect(page).to have_content('Your lodging plans have been cancelled.')
-    logout(:user)
   end
 
   scenario 'cancelling lodging plans from user profile page' do
@@ -39,7 +39,6 @@ feature "Cancelling Lodging feature" do
     end
 
     expect(page).to have_content('Your lodging plans have been cancelled.')
-    logout(:user)
   end
 
   scenario 'non-lodging owners cannot cancel an lodging' do
@@ -51,7 +50,5 @@ feature "Cancelling Lodging feature" do
     visit cancel_trip_lodging_path(:id => lodging.id,
                                     :trip_id => trip.id)
     expect(page).to have_content('You cannot make changes to this lodging.')
-    logout(:user)
   end
-  
 end

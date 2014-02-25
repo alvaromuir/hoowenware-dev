@@ -2,6 +2,7 @@ class LodgingsController < ApplicationController
   before_filter :authenticate_user!, except: [:show]
   before_filter :set_trip
   before_filter :set_lodging, except: [:new, :create]
+  before_filter :check_for_cancel, :only => [:create, :update]
 
   def new
     @lodging = @trip.lodgings.build
@@ -21,6 +22,7 @@ class LodgingsController < ApplicationController
   end
 
   def show
+    # set_lodging
   end
 
   def edit

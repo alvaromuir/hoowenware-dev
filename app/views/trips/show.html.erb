@@ -13,16 +13,16 @@
     </p>
     <p class='dates'>
       ( 
-      <%= @trip.start_date.to_date.strftime("%m/%d/%y") %>  
+      <%= @trip.start_date.strftime("%m/%d/%y") %>  
       | 
-      <%= @trip.end_date.to_date.strftime("%m/%d/%y") %> 
+      <%= @trip.end_date.strftime("%m/%d/%y") %> 
       )
       <% if @trip.has_dates_polls? %>
         <% @trip.dates_polls.each do |poll| %>
           or ( 
-              <%= poll.start_date.to_date.strftime("%m/%d/%y") %> 
+              <%= poll.start_date.strftime("%m/%d/%y") %> 
               |
-              <%= poll.end_date.to_date.strftime("%m/%d/%y") %> 
+              <%= poll.end_date.strftime("%m/%d/%y") %> 
               )
         <% end %>
       <% end %>
@@ -161,6 +161,31 @@
       <%= link_to 'Submit an activity', new_trip_activity_path(@trip.id) %>
       <% else %>
       <%= link_to 'Sign in to submit an activity', new_user_session_path %>
+      <% end  %>
+    </div>
+
+    <div class="available-lodging">
+      <hr />
+      <h4> Available Lodging</h4>
+      <% if @trip.lodgings.count > 0 %>
+      <% @trip.lodgings.each do |lodging| %>
+      <div>
+        <%= link_to lodging, trip_lodging_path(:id => lodging.id,
+                                                :trip_id => @trip.id) %> with 
+        <%= link_to lodging.user, user_path(lodging.user.id) %>
+        | <%= link_to "Add a room", 
+              new_trip_lodging_room_path(:trip_id => @trip.id,
+                                          :lodging_id => lodging.id) %>
+      
+      </div>
+      <% end %>
+      <% else %>
+      No submitted lodging yet...<br />
+      <% end %> 
+      <% if user_signed_in? %>
+      <%= link_to 'Add lodging', new_trip_lodging_path(@trip.id) %>
+      <% else %>
+      <%= link_to 'Sign in to RSVP and add lodging', new_user_session_path %>
       <% end  %>
     </div>
 

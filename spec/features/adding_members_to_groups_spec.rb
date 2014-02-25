@@ -12,6 +12,9 @@ feature 'Adding Group Members feature' do
   before do
   end
 
+  after do
+  end
+
   scenario 'authorized users can add members to group' do
     sign_in_as!(user)
     visit group_url(group)

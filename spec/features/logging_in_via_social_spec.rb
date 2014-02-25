@@ -76,6 +76,5 @@ feature 'Social OAuth Authentication feature' do
 
     expect(page).to have_content 'Successfully authenticated from Dropbox account.'
     expect(page).to have_content "#{first_name}"
-  end  
-
+  end
 end

@@ -8,6 +8,10 @@ feature 'Creating a Date Poll for a Trip' do
   
   before do
     login_as(user, :scope => :user)
+    
+    visit trip_url(trip)
+    click_link 'Settings'
+
   end
 
   after do
@@ -16,9 +20,6 @@ feature 'Creating a Date Poll for a Trip' do
   end
 
   scenario 'creating a date poll' do
-    visit trip_url(trip)
-    click_link 'Settings'
-
     within '.new-trip-dates' do
       click_link 'polls'
     end
@@ -36,13 +37,11 @@ feature 'Creating a Date Poll for a Trip' do
   end
 
   scenario 'creating a location poll' do
-    visit trip_url(trip)
-    click_link 'Settings'
 
     within '.new-trip-location' do
       click_link 'polls'
     end
-    
+
     fill_in 'Title:', with: 'Alternate Location Poll'
     fill_in 'Location',  with:'Somewhere, anywhere else'
     fill_in 'Notes:', with: 'Where else can we go?'
@@ -52,5 +51,25 @@ feature 'Creating a Date Poll for a Trip' do
 
     expect(page).to have_content('Alternate Location Poll')
     expect(page).to have_content (trip.end_date-5.days).strftime("%m/%d/%y")
+  end
+
+  scenario 'cancel button takes you to trips edit page' do
+    within '.new-trip-dates' do
+      click_link 'polls'
+    end
+
+    click_button 'Cancel'
+
+    expect(page).to have_content('Your changes have been cancelled.')
+    current_url.should eq edit_trip_url(trip)
+
+    within '.new-trip-location' do
+      click_link 'polls'
+    end
+    
+    click_button 'Cancel'
+
+    expect(page).to have_content('Your changes have been cancelled.')
+    current_url.should eq edit_trip_url(trip)
   end
 end

@@ -2,7 +2,8 @@ class TransportationsController < ApplicationController
   before_filter :authenticate_user!, except: [:show]
   before_filter :set_trip
   before_filter :set_transportation, except: [:new, :create]
-
+  before_filter :check_for_cancel, :only => [:create, :update]
+  
   def new
     @transportation = @trip.transportations.build
   end

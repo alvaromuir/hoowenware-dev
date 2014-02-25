@@ -44,7 +44,5 @@ feature "Viewing Transportations feature" do
     expect(page).to have_content(transportation.departure_date.to_date.strftime("%m/%d/%y"))
     expect(page).to have_content(transportation.arrival_city)
     expect(page).to have_content(transportation.arrival_date.to_date.strftime("%m/%d/%y"))
-
   end
-
 end

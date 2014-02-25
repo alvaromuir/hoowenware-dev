@@ -3,13 +3,19 @@
 require 'spec_helper'
 
 feature 'Creating A Group feature' do
+  let!(:user) { FactoryGirl.create(:user) }
+
   before do
-    login_as(FactoryGirl.create(:user), :scope => :user)
+    login_as(user, :scope => :user)
+    visit new_group_path
+  end
+
+  after do
+    logout(:user)
+    Warden.test_reset!
   end
 
   scenario 'creating a group' do
-    visit '/groups/new'
-
     fill_in 'Group Name:', with: 'Test Group'
     fill_in 'Group Description:', with: 'Test Group'
     fill_in 'Group Location:', with: '10001'
@@ -21,14 +27,12 @@ feature 'Creating A Group feature' do
     click_link_or_button 'Create'
 
     expect(page).to have_content('This group has been created.')
+  end
 
-    visit groups_path
-    click_link_or_button 'Test Group'
-    expect(page).to have_content('Test Group')
-    expect(page).to have_content('10001')
-    expect(page).to have_content('Example Group Type')
-    expect(page).to have_content('https://facebook.com/example_group')
-    expect(page).to have_content('https://meetup.com/example_group')
-    expect(page).to have_content('gm12345')
+  scenario 'cancel button takes you to groups listing page' do
+    click_button 'Cancel'
+
+    expect(page).to have_content('Your changes have been cancelled.')
+    current_url.should eq groups_url
   end
 end

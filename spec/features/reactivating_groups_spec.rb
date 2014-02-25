@@ -38,5 +38,4 @@ feature 'Reactivating Groups feature' do
 
     expect(page).to_not have_content(group.name)
   end
-
 end

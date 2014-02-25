@@ -37,5 +37,4 @@ feature 'Deactivating Groups feature' do
 
     expect(page).to have_content(group.name)
   end
-
 end

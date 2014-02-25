@@ -53,5 +53,4 @@ feature "Reactivating Lodging feature" do
     expect(page).to have_content('You cannot make changes to this lodging.')
     logout(:user)
   end
-  
 end

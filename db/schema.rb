@@ -182,19 +182,20 @@ ActiveRecord::Schema.define(version: 20140224234418) do
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
   create_table "rooms", force: true do |t|
-    t.string   "name"
+    t.string   "name",             default: "",   null: false
     t.float    "price"
     t.integer  "min_stay"
     t.string   "room_type"
     t.text     "amenities"
-    t.date     "deadline"
-    t.float    "depost"
+    t.date     "deadline",                        null: false
+    t.float    "deposit"
     t.boolean  "cc_required"
     t.integer  "min_age"
     t.string   "room_gender"
     t.text     "notes"
     t.integer  "sleeps"
     t.float    "price_per_person"
+    t.boolean  "is_active",        default: true
     t.integer  "lodging_id"
     t.integer  "trip_id"
     t.integer  "user_id"

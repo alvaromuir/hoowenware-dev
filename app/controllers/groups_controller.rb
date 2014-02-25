@@ -93,7 +93,11 @@ class GroupsController < ApplicationController
     def check_for_cancel
       if params[:commit] == "Cancel"
         flash[:notice] = "Your changes have been cancelled."
-        redirect_to @group
+        if @group
+          redirect_to group_path(@group)
+        else
+          redirect_to groups_path
+        end
       end
     end
     def is_group_admin?(user)

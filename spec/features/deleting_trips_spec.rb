@@ -29,6 +29,4 @@ feature 'Deleting Trips feature' do
 
 		expect(page).to have_no_content(trip1.title)
 	end
-
-
 end

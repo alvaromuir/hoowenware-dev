@@ -10,6 +10,9 @@ feature 'Canceling Trips feature' do
 	before do
 	end
 
+  after do
+  end
+
 	scenario 'cancelling an trip is not allowed by non-trip owner' do
 		sign_in_as!(user2)
 		visit "#{trip_url(trip)}/cancel"

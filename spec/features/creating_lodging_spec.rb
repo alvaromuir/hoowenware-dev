@@ -40,21 +40,17 @@ feature "Creating a Lodging " do
 
     expect(page).to have_content('Your lodging has been created.')
     expect(page).to have_content('View lodging itenerary')
+  end
 
-    within '.going' do
-      click_link_or_button 'View lodging itenerary'
-    end
+  scenario 'cancel button takes you to trips page' do
 
-    expect(page).to have_content('hotel')
-    expect(page).to have_content('An Example Lodging Name')
-    expect(page).to have_content('http://www.example/com/activity/xxx')
-    expect(page).to have_content('John Doe, johndoe@example.com')
-    expect(page).to have_content (Time.now + 30.days).strftime("%m/%d/%y")
-    expect(page).to have_content (Time.now + 34.days).strftime("%m/%d/%y")
-    expect(page).to have_content('1313 Anywhere Drive Anywhere, USA 00000')
-    expect(page).to have_content('4.5')
-    expect(page).to have_content('http://www.example/com/reviews/xxx')
-    expect(page).to have_content('An Example Activity with example notes')
-    expect(page).to have_content('http://www.example/com/hotels/image.jpg')
+    visit trip_path(trip)
+      within '.available-lodging' do
+        click_link_or_button 'Add lodging'
+      end
+    click_button 'Cancel'
+
+    expect(page).to have_content('Your changes have been cancelled.')
+    current_url.should eq trip_url(trip)
   end
 end

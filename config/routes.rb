@@ -47,6 +47,13 @@ HoowenwareDev::Application.routes.draw do
         get 'cancel'
         get 'reactivate'
       end
+      
+      resources :rooms do    
+        member do
+          get 'cancel'
+          get 'reactivate'
+        end
+      end
     end
   end
 

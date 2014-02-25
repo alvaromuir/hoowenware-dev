@@ -53,5 +53,4 @@ feature "Reactivating Transportations feature" do
     expect(page).to have_content('You cannot make changes to this transportation plan.')
     logout(:user)
   end
-  
 end

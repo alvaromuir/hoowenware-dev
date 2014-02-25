@@ -1,5 +1,5 @@
 # lodging factory for integration testing
-# 
+
 FactoryGirl.define do
   factory :lodging do
     lodging_type 'hotel'

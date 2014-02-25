@@ -1,0 +1,4 @@
+<h4>Add a room to <%= link_to @lodging, 
+                      trip_lodging_path(:trip_id => @lodging.trip_id,
+                                        :id => @lodging.id) %></h4>
+<%= render partial: "form" %>

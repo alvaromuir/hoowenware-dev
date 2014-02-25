@@ -1,0 +1,89 @@
+<% if user_signed_in? %> 
+  <% if current_user.id == @room.user_id or current_user.is_admin? %>
+  <div>
+    <%= link_to "Update this room", edit_trip_lodging_room_path(:lodging_id => @lodging.id,
+                                                    :id => @lodging.id) %>
+    | <% if @room.is_active? %>
+        <%= link_to "Cancel this room", 
+                      cancel_trip_lodging_room_path(:lodging_id => @lodging.id,
+                                                    :id => @lodging.id) %>
+      <% else %>
+        <%= link_to "Reactivate this room", 
+                      reactivate_trip_lodging_room_path(:lodging_id => @lodging.id,
+                                                    :id => @lodging.id) %>
+      <% end %>
+  </div>
+  <% end %>
+<% end %>
+<div>
+<h4><%= link_to @lodging, trip_lodging_path(:trip_id => @lodging.trip_id,
+                                            :id => @lodging.id) %> Room Availbility
+  during <%= link_to @lodging.trip, trip_path(@lodging.trip_id) %>
+</h4>
+
+<div>
+  <%= @room.name %>
+</div>
+<div class="room-overview">
+   <% if @room.room_type %>
+    <span class="room-type">
+      A <%= @room.room_type %>
+    </span>
+  <% end %>
+  <% if @room.price %>
+    <span class="room-price">
+      $<%= @room.price %> per night
+        <% if @room.min_stay %>
+          with a minimum stay of <%= @room.min_stay %> nights
+        <% end %>
+    </span>
+    <% if @room.price_per_person %>
+      <div class="room-price-per-person">
+        The current price per person is: $<%= @room.price_per_person %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if @room.amenities %>
+    <div class="room-amenities">
+      Features: <br /><%= @room.amenities %>
+    </div>
+  <% end %>
+  <div class="room-details">
+    <% if @room.notes %>
+      <div class="room-notes">
+        Notes:<br /><%= @room.notes %>
+      </div>
+    <% end %>
+    <% if @room.deadline %>
+      <div class="room-deadline">
+        This room has a deadline of <%= @room.deadline.strftime("%m/%d/%y") %>
+      </div>
+    <% end %>
+    <% if @room.cc_required %>
+      <div class="room-cc-required">
+        Credit Card Required? 
+        <% if @room.cc_required? %>
+        Yes
+        <% else %>
+        No
+        <% end %>
+      </div>
+    <% end %>
+    <% if @room.min_age %>
+      <div class="room-min-age">
+        Minimum Age: <%= @room.min_age %>
+      </div>
+    <% end %>
+    <% if @room.sleeps %>
+      <div class="room-sleeps">
+        Room Sleeps:<%= @room.sleeps %>
+      </div>
+    <% end %>
+    <% if @room.room_gender %>
+      <div class="room-gender">
+        Gender Restriction<%= @room.room_gender %>
+      </div>
+    <% end %>
+  </div>
+</div>

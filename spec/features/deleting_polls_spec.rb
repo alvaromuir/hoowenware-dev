@@ -22,5 +22,4 @@ feature "Deleting Polls" do
 
     expect(page).to have_content('Your poll has been deleted.')
   end
-  
 end

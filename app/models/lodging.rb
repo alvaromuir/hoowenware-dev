@@ -10,4 +10,7 @@ class Lodging < ActiveRecord::Base
 
   has_many :rooms, :dependent => :destroy
 
+  def to_s
+    return self.name
+  end
 end

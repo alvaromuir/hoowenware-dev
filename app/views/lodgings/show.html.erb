@@ -64,3 +64,40 @@ to <%= @lodging.checkout_date.strftime("%m/%d/%y") %>
     <% end %>
   </div>
 </div>
+
+<div>
+  <% if @lodging.rooms.count > 0 %>
+  <hr />
+  <h4>Available Rooms</h4>
+    <% @lodging.rooms.each do |room| %>
+      <div>
+        <%= link_to room, trip_lodging_room_path(:lodging_id => @lodging.id,
+                                                  :id => room.id) %>
+        with <%= link_to room.user, user_path(room.user) %>
+        <% if current_user == room.user %>
+        <span class="current_user-room">
+          | <%= link_to "Update this room", 
+                edit_trip_lodging_room_path(:lodging_id => @lodging.id,
+                                            :id => room.id) %>
+          | <% if room.is_active? %>
+              <%= link_to "Cancel this room", 
+                  cancel_trip_lodging_room_path(:lodging_id => @lodging.id,
+                                                :id => room.id) %>
+            <% else %>
+              <%= link_to "Reactivate this room", 
+                  reactivate_trip_lodging_room_path(:lodging_id => @lodging.id,
+                                                    :id => room.id) %>
+            <% end %>
+        </span>
+        <% end %>
+      </div>
+    <% end %>
+  <% end %>
+
+
+</div>
+<hr />
+<div>
+  <%= link_to "Add a room to this lodging", 
+              new_trip_lodging_room_path(:lodging_id => @lodging.id) %>
+</div>

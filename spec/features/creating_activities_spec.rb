@@ -42,20 +42,13 @@ feature "Creating Activities feature" do
     
     expect(page).to have_content('Your activity request has been receieved and is awaiting approval.')
     expect(page).to have_content('An Example Activity')
+  end
 
-    click_link_or_button 'An Example Activity'
+  scenario 'cancel button takes you to trips page' do
+    click_link_or_button 'Submit an activity' 
+    click_button 'Cancel'
 
-    expect(page).to have_content('An Example Activity')
-    expect(page).to have_content('http://www.example/com/activity/xxx')
-    expect(page).to have_content('An example Venue')
-    expect(page).to have_content('1313 Anywhere Drive Anywhere, USA 00000')
-    expect(page).to have_content('John Doe, johndoe@example.com')
-    expect(page).to have_content('9.99')
-    expect(page).to have_content trip.start_date.strftime("%m/%d/%y")
-    expect(page).to have_content('An example Activity')
-    expect(page).to have_content (trip.start_date-5.days).strftime("%m/%d/%y")
-    expect(page).to have_content('10')
-    expect(page).to have_content('18')
-
+    expect(page).to have_content('Your request have been cancelled.')
+    current_url.should eq trip_url(trip)
   end
 end

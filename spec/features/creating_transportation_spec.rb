@@ -43,20 +43,15 @@ feature "Creating Transportation feature" do
     click_link_or_button 'Create'
 
     expect(page).to have_content('Your travel arrangements have been submitted.')
+  end
 
+  scenario 'cancel button takes you to trips page' do
     within '.going' do
-      click_link_or_button 'View travel itenerary'
+      click_link_or_button 'Add travel itenerary'
     end
+    click_button 'Cancel'
 
-    expect(page).to have_content('airline')
-    expect(page).to have_content('34')
-    expect(page).to have_content('2C')
-    expect(page).to have_content('245')
-    expect(page).to have_content('Example travel arrangement notes.')
-    expect(page).to have_content('NYC')
-    expect(page).to have_content (trip.start_date-1.days).strftime("%m/%d/%y")
-    expect(page).to have_content('Anywhere, USA')
-    expect(page).to have_content (trip.start_date-1.days).strftime("%m/%d/%y")
-
+    expect(page).to have_content('Your changes have been cancelled.')
+    current_url.should eq trip_url(trip)
   end
 end

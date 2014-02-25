@@ -128,7 +128,7 @@ class TripsController < ApplicationController
     def check_for_cancel
       if params[:commit] == "Cancel"
         flash[:notice] = "Your changes have been cancelled."
-        redirect_to @trip
+        redirect_to trips_path
       end
     end
 end
