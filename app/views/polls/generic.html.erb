@@ -1,0 +1,4 @@
+<h4>Create a new poll for <%= link_to @trip, trip_path(@trip) %></h4>
+<%= form_for [@trip, @poll] do |f| %>
+  <%= render partial: "generic", layout: "form", :locals=>{:f=>f}  %>
+<% end %>

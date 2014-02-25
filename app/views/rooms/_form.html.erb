@@ -13,51 +13,55 @@
     </div>
     <% end %>
     <div>
-      <%= f.label :name, "Name:" %>
+      <%= f.label :name, "Name:" %><br />
       <%= f.text_field :name %>
     </div>
     <div>
-      <%= f.label :min_stay, "Minimum Stay:" %>
+      <%= f.label :min_stay, "Minimum Stay:" %><br />
       <%= f.text_field :min_stay%>
     </div>
     <div>
-      <%= f.label :price, "Price:" %>
+      <%= f.label :price, "Price:" %><br />
       <%= f.text_field :price %>
     </div>
     <div>
-      <%= f.label :room_type, "Room Type:" %>
+      <%= f.label :room_type, "Room Type:" %><br />
       <%= f.text_field :room_type %>
     </div>
     <div>
-      <%= f.label :amenities, "Amenities:" %>
+      <%= f.label :amenities, "Amenities:" %><br />
       <%= f.text_area :amenities %>
     </div>
     <div>
-      <%= f.label :deadline, "Deadline:" %>
+      <%= f.label :deadline, "Deadline:" %><br />
       <%= f.text_field :deadline %>
     </div>
     <div>
-      <%= f.label :deposit, "Deposit:" %>
+      <%= f.label :deposit, "Deposit:" %><br />
       <%= f.text_field :deposit %>
     </div>
+    <br />
     <div>
       <%= f.label :cc_required, "Credit Card Required?" %>
       <%= f.check_box :cc_required %>
     </div>
+    <br />
     <div>
-      <%= f.label :min_age, "Minimum Age:" %>
+      <%= f.label :min_age, "Minimum Age:" %><br />
       <%= f.text_field :min_age %>
     </div>
+    <br />
     <div>
       <%= f.label :room_gender, 'Room Gender:' %>
       <%= f.select :room_gender, [['',''], ['male', 'male'], ['female', 'female']] %>
     </div>
+    <br />
     <div>
-      <%= f.label :sleeps, "Room Sleeps:" %>
+      <%= f.label :sleeps, "Room Sleeps:" %><br />
       <%= f.text_field :sleeps %>
     </div>
     <div>
-      <%= f.label :notes, "Notes:" %>
+      <%= f.label :notes, "Notes:" %><br />
       <%= f.text_area :notes %>
     </div>
     <hr />

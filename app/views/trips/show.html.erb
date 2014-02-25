@@ -119,6 +119,26 @@
       <% else %>
       <%= link_to 'Sign in to add a post', new_user_session_path %>
       <% end  %>
+
+      <div class="user-polls">
+        <% if @trip.polls.where(:poll_type => 'generic').count > 0 %>
+          <hr />
+          <% @trip.polls.where(:poll_type => 'generic').each do |poll| %>
+            <div>
+            Poll from <%= link_to poll.user, user_path(poll.user) %>:
+            <%= link_to poll, trip_poll_path(:trip_id => @trip.id, :id => poll.id) %>
+            </div>
+          <% end %>
+        <% else %>
+        <% end %>
+        <div>
+          <% if user_signed_in? %>
+            <%= link_to "create a poll", generic_trip_poll_path(:trip_id => @trip.id) %>
+          <% else %>
+            <%= link_to 'Sign in to add a poll', new_user_session_path %>
+          <% end  %>
+        </div>
+      </div>
     </div>
 
     <div class="files-photos">

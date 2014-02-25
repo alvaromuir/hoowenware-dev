@@ -159,16 +159,18 @@ ActiveRecord::Schema.define(version: 20140224234418) do
     t.date     "start_date"
     t.date     "end_date"
     t.string   "location"
-    t.string   "generic_question"
+    t.text     "generic_question"
     t.text     "notes"
     t.date     "expires"
     t.boolean  "is_active",        default: true
     t.integer  "trip_id"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "polls", ["trip_id"], name: "index_polls_on_trip_id", using: :btree
+  add_index "polls", ["user_id"], name: "index_polls_on_user_id", using: :btree
 
   create_table "posts", force: true do |t|
     t.text     "message"

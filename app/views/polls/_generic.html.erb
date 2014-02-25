@@ -1,0 +1,5 @@
+    <div>
+      <%= f.label :generic_question, 'Generic Question [Yes or No]:' %><br />
+      <%= f.text_area :generic_question %>
+    </div>
+    <%= f.hidden_field :poll_type, :value => "generic" %>

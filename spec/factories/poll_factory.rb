@@ -18,5 +18,11 @@ FactoryGirl.define do
       sequence(:location) {|n| "Location ##{n}"}
     end
 
+    factory :generic_poll do
+      poll_type 'generic'
+      generic_question 'What do you think about generic test questions?'
+    end
+
+
   end
 end

@@ -1,6 +1,6 @@
 class PollsController < ApplicationController
   before_action :set_trip
-  before_action :set_poll, :only => [:edit, :update, :destroy]
+  before_action :set_poll, :only => [:edit, :show, :update, :destroy]
   before_filter :authenticate_user!
   before_filter :check_for_cancel, :only => [:create, :update]
 
@@ -14,12 +14,22 @@ class PollsController < ApplicationController
     @poll = @trip.polls.build
   end
 
+  def generic
+    # set_trip
+    @poll = @trip.polls.build
+  end
+
   def create
     @poll = @trip.polls.build(poll_params)
+    @poll.user = current_user
     if @poll.save
       @poll.update(is_active: true)
       flash[:notice] = "Your poll has been created."
-      redirect_to edit_trip_path(@trip)
+      if @poll.poll_type == 'generic'
+        redirect_to trip_path(@trip)
+      else
+        redirect_to edit_trip_path(@trip)
+      end
     else
       flash[:alert] = "Your poll has not been created."
       render "new"
@@ -28,6 +38,9 @@ class PollsController < ApplicationController
 
   def edit
     # set_poll
+  end
+
+  def show
   end
 
   def update
@@ -61,7 +74,7 @@ class PollsController < ApplicationController
   private
     def poll_params
       params.require(:poll).permit(:poll_type, :title, :start_date, :end_date, 
-                                    :location, :notes, :expires)
+                                    :location, :generic_question, :notes, :expires)
     end
 
     def set_trip

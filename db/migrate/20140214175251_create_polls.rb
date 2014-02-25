@@ -6,11 +6,12 @@ class CreatePolls < ActiveRecord::Migration
       t.date :start_date
       t.date :end_date
       t.string :location
-      t.string :generic_question
+      t.text :generic_question
       t.text :notes
       t.date :expires
       t.boolean :is_active, :default => true
-      t.references :trip, :index => true
+      t.references :trip,   :index => true
+      t.references :user,   :index => true
 
       t.timestamps
     end

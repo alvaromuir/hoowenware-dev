@@ -1,0 +1,16 @@
+<h4><%= @poll %></h4>
+
+Question:<br />
+
+<% if @poll.poll_type == 'dates' %>
+Would you prefer to go on <%= @poll.start_date %> through <%= @poll.end_date %>?
+<% end %>
+
+<% if @poll.poll_type == 'location' %>
+Would you prefer to go to <%= @poll.location %>?
+<% end %>
+
+
+<% if @poll.poll_type == 'generic' %>
+  <%= @poll.generic_question %>
+<% end %>

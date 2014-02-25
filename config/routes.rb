@@ -23,6 +23,7 @@ HoowenwareDev::Application.routes.draw do
       member do
         get 'dates'
         get 'locations'
+        get 'generic'
       end
     end
     
