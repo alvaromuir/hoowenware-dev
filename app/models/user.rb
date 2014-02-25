@@ -138,9 +138,21 @@ class User < ActiveRecord::Base
     @transportations = Transportation.where(:user_id => self.id)
   end
 
+  def has_lodging_arrangements?
+  @lodgings = Lodging.where(:user_id => self.id)
+    if @lodgings.count > 0
+      return true
+    end
+    return false
+  end
+
+  def lodging_arrangements
+    @lodgings = Lodging.where(:user_id => self.id)
+  end
+
 
   private
-    # quick method to see what the oauth provider returns
+    # quick'n durty method to see what the oauth provider returns
     def self.console_log(oauth_response)
       require 'pp'
       5.times { puts '' }

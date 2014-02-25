@@ -41,6 +41,13 @@ HoowenwareDev::Application.routes.draw do
         get 'reactivate'
       end
     end
+
+    resources :lodgings do    
+      member do
+        get 'cancel'
+        get 'reactivate'
+      end
+    end
   end
 
   resources :groups do

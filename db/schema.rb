@@ -11,21 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140224054020) do
+ActiveRecord::Schema.define(version: 20140224234418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
   create_table "activities", force: true do |t|
-    t.string   "activity_type",                  null: false
-    t.string   "name",              default: "", null: false
+    t.string   "activity_type",                    null: false
+    t.string   "name",              default: "",   null: false
     t.string   "link"
     t.string   "venue"
     t.text     "address"
     t.text     "contact"
     t.float    "price"
-    t.date     "date",                           null: false
+    t.date     "date",                             null: false
     t.time     "start_time"
     t.time     "end_time"
     t.text     "notes"
@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20140224054020) do
     t.boolean  "cc_required"
     t.integer  "min_age"
     t.string   "gender"
-    t.boolean  "is_active"
+    t.boolean  "is_active",         default: true
     t.boolean  "is_approved"
     t.integer  "approved_by"
     t.integer  "user_id"
@@ -95,6 +95,29 @@ ActiveRecord::Schema.define(version: 20140224054020) do
 
   add_index "invitations", ["trip_id"], name: "index_invitations_on_trip_id", using: :btree
   add_index "invitations", ["user_id"], name: "index_invitations_on_user_id", using: :btree
+
+  create_table "lodgings", force: true do |t|
+    t.string   "lodging_type"
+    t.string   "name",          default: "",   null: false
+    t.string   "link"
+    t.text     "contact"
+    t.date     "checkin_date",                 null: false
+    t.time     "checkin_time"
+    t.date     "checkout_date",                null: false
+    t.text     "address"
+    t.float    "star_rating"
+    t.string   "reviews_link"
+    t.text     "notes"
+    t.string   "cover_photo"
+    t.boolean  "is_active",     default: true
+    t.integer  "user_id"
+    t.integer  "trip_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "lodgings", ["trip_id"], name: "index_lodgings_on_trip_id", using: :btree
+  add_index "lodgings", ["user_id"], name: "index_lodgings_on_user_id", using: :btree
 
   create_table "memberships", force: true do |t|
     t.integer  "group_id"
@@ -158,6 +181,31 @@ ActiveRecord::Schema.define(version: 20140224054020) do
   add_index "posts", ["trip_id"], name: "index_posts_on_trip_id", using: :btree
   add_index "posts", ["user_id"], name: "index_posts_on_user_id", using: :btree
 
+  create_table "rooms", force: true do |t|
+    t.string   "name"
+    t.float    "price"
+    t.integer  "min_stay"
+    t.string   "room_type"
+    t.text     "amenities"
+    t.date     "deadline"
+    t.float    "depost"
+    t.boolean  "cc_required"
+    t.integer  "min_age"
+    t.string   "room_gender"
+    t.text     "notes"
+    t.integer  "sleeps"
+    t.float    "price_per_person"
+    t.integer  "lodging_id"
+    t.integer  "trip_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "rooms", ["lodging_id"], name: "index_rooms_on_lodging_id", using: :btree
+  add_index "rooms", ["trip_id"], name: "index_rooms_on_trip_id", using: :btree
+  add_index "rooms", ["user_id"], name: "index_rooms_on_user_id", using: :btree
+
   create_table "rsvps", force: true do |t|
     t.string   "response",   null: false
     t.integer  "user_id"
@@ -170,19 +218,19 @@ ActiveRecord::Schema.define(version: 20140224054020) do
   add_index "rsvps", ["user_id"], name: "index_rsvps_on_user_id", using: :btree
 
   create_table "transportations", force: true do |t|
-    t.string   "transportation_type", default: "", null: false
+    t.string   "transportation_type", default: "",   null: false
     t.string   "service_number"
     t.string   "seat_number"
     t.float    "price"
     t.boolean  "deposit_required"
     t.text     "notes"
-    t.string   "departure_city",      default: "", null: false
+    t.string   "departure_city",      default: "",   null: false
     t.date     "departure_date"
     t.time     "departure_time"
-    t.string   "arrival_city",        default: "", null: false
+    t.string   "arrival_city",        default: "",   null: false
     t.date     "arrival_date"
     t.time     "arrival_time"
-    t.boolean  "is_active"
+    t.boolean  "is_active",           default: true
     t.integer  "trip_id"
     t.integer  "user_id"
     t.datetime "created_at"

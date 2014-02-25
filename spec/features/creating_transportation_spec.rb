@@ -30,18 +30,33 @@ feature "Creating Transportation feature" do
     check 'Deposit Required?'
     fill_in 'Notes:', with: 'Example travel arrangement notes.'
     fill_in 'Departure City:', with: 'NYC'
-    fill_in 'Departure Date:', with: '03/02/14'
-    fill_in 'Departure Time:', with: '03/02/14 12:00PM'
+    fill_in 'Departure Date:', with: (trip.start_date-1.days).strftime("%m/%d/%y")
+    fill_in 'Departure Time:', with: ((trip.start_date-1.days).change({:hour => 15, 
+                                                                        :min => 0}))
+                                                              .strftime("%I:%m%p")
     fill_in 'Arrival City:', with: 'Anywhere, USA'
-    fill_in 'Arrival Date:', with: '03/02/14'
-    fill_in 'Arrival Time:', with: '03/02/14 3:30PM'
+    fill_in 'Arrival Date:', with: (trip.start_date-1.days).strftime("%m/%d/%y")
+    fill_in 'Arrival Time:', with: ((trip.start_date-1.days).change({:hour => 18, 
+                                                                      :min => 30}))
+                                                            .strftime("%I:%m%p")
 
     click_link_or_button 'Create'
 
     expect(page).to have_content('Your travel arrangements have been submitted.')
 
     within '.going' do
-      expect(page).to have_content('View travel itenerary')
+      click_link_or_button 'View travel itenerary'
     end
+
+    expect(page).to have_content('airline')
+    expect(page).to have_content('34')
+    expect(page).to have_content('2C')
+    expect(page).to have_content('245')
+    expect(page).to have_content('Example travel arrangement notes.')
+    expect(page).to have_content('NYC')
+    expect(page).to have_content (trip.start_date-1.days).strftime("%m/%d/%y")
+    expect(page).to have_content('Anywhere, USA')
+    expect(page).to have_content (trip.start_date-1.days).strftime("%m/%d/%y")
+
   end
 end

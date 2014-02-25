@@ -58,6 +58,7 @@
     <% end %>
   </div>
   <% end %>
+
   <div>
   <% if @user.has_travel_plans? %>
   <hr />
@@ -84,6 +85,39 @@
       <%= link_to "Reactivate this itenerary", 
                       reactivate_trip_transportation_path(:id => itenerary.id,
                                                       :trip_id => itenerary.trip_id) %>
+      <% end %>
+    <% end %>
+  </div>
+  <% end %>
+  </div>
+
+  <div>
+  <% if @user.has_lodging_arrangements? %>
+  <hr />
+  <h4>Lodging Arrangments</h4>
+  <div class="lodging-arrangments">
+    <% @user.lodging_arrangements.each do |itenerary| %>
+      <% if itenerary.is_active? %>
+        <%= link_to itenerary.lodging_type, 
+                    trip_lodging_path(:id => itenerary.id,
+                                            :trip_id => itenerary.trip_id) %>
+      <% else %>
+        <%= link_to itenerary.lodging_type, 
+                    trip_lodging_path(:id => itenerary.id,
+                                            :trip_id => itenerary.trip_id) %>
+      <% end %>
+      lodging from <%= itenerary.checkin_date.strftime("%m/%d/%y") %>
+      until <%= itenerary.checkout_date.strftime("%m/%d/%y") %>
+      | 
+      <% if itenerary.is_active? %>
+        <%= link_to "Cancel this itenerary", 
+                      cancel_trip_lodging_path(:id => itenerary.id,
+                                              :trip_id => itenerary.trip_id) %>
+
+      <% else %>
+      <%= link_to "Reactivate this itenerary", 
+                      reactivate_trip_lodging_path(:id => itenerary.id,
+                                                  :trip_id => itenerary.trip_id) %>
       <% end %>
     <% end %>
   </div>

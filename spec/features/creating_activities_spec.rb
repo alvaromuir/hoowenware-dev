@@ -4,7 +4,7 @@ require "spec_helper"
 
 feature "Creating Activities feature" do
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:trip) { FactoryGirl.create(:trip, user: user)}
+  let!(:trip) { FactoryGirl.create(:trip, user: user) }
 
   before do
     login_as(user, :scope => :user)
@@ -27,8 +27,10 @@ feature "Creating Activities feature" do
     fill_in 'Contact:', with: 'John Doe, johndoe@example.com'
     fill_in 'Price:', with: '9.99'
     fill_in 'Date:', with: trip.start_date.strftime("%m/%d/%y")
-    fill_in 'Start Time:', with: '7:00pm'
-    fill_in 'End Time:', with: '10:00pm'
+    fill_in 'Start Time:', with: ((trip.start_date + 30.days).change({:hour => 22, :min => 00, :sec => 00 }))
+                                                              .strftime("%I:%m%p")
+    fill_in 'End Time:', with: ((trip.start_date + 30.days).change({:hour => 22, :min => 00, :sec => 00 }))
+                                                            .strftime("%I:%m%p")
     fill_in 'Notes:', with: 'An example Activity'
     fill_in 'Deadline:', with: (trip.start_date-5.days).strftime("%m/%d/%y")
     fill_in 'Tickets Available', with: 10
@@ -40,5 +42,20 @@ feature "Creating Activities feature" do
     
     expect(page).to have_content('Your activity request has been receieved and is awaiting approval.')
     expect(page).to have_content('An Example Activity')
+
+    click_link_or_button 'An Example Activity'
+
+    expect(page).to have_content('An Example Activity')
+    expect(page).to have_content('http://www.example/com/activity/xxx')
+    expect(page).to have_content('An example Venue')
+    expect(page).to have_content('1313 Anywhere Drive Anywhere, USA 00000')
+    expect(page).to have_content('John Doe, johndoe@example.com')
+    expect(page).to have_content('9.99')
+    expect(page).to have_content trip.start_date.strftime("%m/%d/%y")
+    expect(page).to have_content('An example Activity')
+    expect(page).to have_content (trip.start_date-5.days).strftime("%m/%d/%y")
+    expect(page).to have_content('10')
+    expect(page).to have_content('18')
+
   end
 end

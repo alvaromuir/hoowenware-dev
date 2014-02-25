@@ -1,4 +1,5 @@
 # event factory for integration testing
+
 FactoryGirl.define do
   start = ''
 	factory :trip do

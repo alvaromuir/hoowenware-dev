@@ -1,0 +1,78 @@
+  <%= form_for [@trip, @lodging], html: {id: 'new_lodging_form' } do |f| %>
+    <% if @lodging.errors.any? %>
+      <div id="error_explanation">
+        <h4>
+          <%= pluralize(@lodging.errors.count, "error") %> prohibited this lodging from being saved:
+        </h4>
+        <ul>
+          <% @lodging.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div>
+      <%= f.label :lodging_type, 'Lodging Type:' %>
+      <%= f.select :lodging_type, [['hotel', 'hotel'],
+                                    ['AirBnB', 'AirBnB'],['VR', 'VR'],
+                                    ['tent', 'tent'],['RV', 'RV'], ['boat', 'boat'],
+                                    ['cruise cabin', 'cruise cabin'],['other', 'other']] %>
+    </div>
+    <div>
+      <%= f.label :name, 'Name:' %>
+      <%= f.text_field :name %>
+    </div>
+    <div>
+      <%= f.label :link, 'Link:' %>
+      <%= f.text_field :link %>
+    </div>
+    <div>
+      <%= f.label :contact, 'Contact:' %>
+      <%= f.text_area :contact %>
+    </div>
+    <div>
+      <%= f.label :checkin_date, 'Checkin Date:' %>
+      <%= f.text_field :checkin_date %>
+    </div>
+    <div>
+      <%= f.label :checkin_time, 'Checkin Time:' %>
+      <%= f.text_field :checkin_time %>
+    </div>
+    <div>
+      <%= f.label :checkout_date, 'Checkout Date:' %>
+      <%= f.text_field :checkout_date %>
+    </div>
+    <div>
+      <%= f.label :address, 'Address:' %>
+      <%= f.text_area :address %>
+    </div>
+    <div>
+      <%= f.label :star_rating, 'Star Rating:' %>
+      <%= f.text_field :star_rating %>
+    </div>
+    <div>
+      <%= f.label :reviews_link, 'Reviews Link:' %>
+      <%= f.text_field :reviews_link %>
+    </div>
+    <div>
+      <%= f.label :notes, 'Notes:' %>
+      <%= f.text_area :notes %>
+    </div>
+    <div>
+      <%= f.label :cover_photo, 'Cover Photo:' %>
+      <%= f.text_field :cover_photo %>
+    </div>
+    <hr />
+
+    <div>
+      <div>
+        <% if @lodging.new_record? %>
+          <%= f.submit 'Create'%>
+        <% else %>
+          <%= f.submit 'Update'%>
+        <% end %>
+        <%= button_tag "Reset", type: :reset%>
+        <%= f.submit "Cancel"%>
+      </div>
+    </div>
+  <% end %>

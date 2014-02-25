@@ -32,7 +32,7 @@ feature "Editing Polls" do
   end
 
   scenario 'editing a location poll' do
-    visit edit_trip_url(trip)
+    visit edit_trip_path(trip)
     click_link location_poll.title
     
     expect(page).to have_content('Edit your location poll')
@@ -43,5 +43,9 @@ feature "Editing Polls" do
     click_link_or_button 'Update'
 
     expect(page).to have_content('Your poll has been updated.')
+
+    visit edit_trip_path(trip)
+    click_link location_poll.title
+    expect(page).to have_content('A new note')
   end
 end

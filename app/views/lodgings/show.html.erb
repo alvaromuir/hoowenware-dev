@@ -1,0 +1,66 @@
+<% if user_signed_in? %> 
+  <% if current_user.id == @lodging.user_id or current_user.is_admin? %>
+  <div>
+    <%= link_to "Update this lodging itenerary", edit_trip_lodging_path(:id => @lodging.id,
+                                                                :trip_id => @trip.id) %>
+    | <% if @lodging.is_active? %>
+        <%= link_to "Cancel this lodging itenerary", 
+                      cancel_trip_lodging_path(:id => @lodging.id,
+                                                      :trip_id => @trip.id) %>
+      <% else %>
+        <%= link_to "Reactivate this lodging itenerary", 
+                      reactivate_trip_lodging_path(:id => @lodging.id,
+                                                      :trip_id => @trip.id) %>
+      <% end %>
+  </div>
+  <% end %>
+<% end %>
+<div>
+<h4><%= @lodging.name %></h4>
+<p><%= link_to @lodging.link %></p>
+<% if @lodging.star_rating %>
+  Star Rating: <%= @lodging.star_rating %> Stars
+<% end %>
+<% if @lodging.star_rating %>
+  Reviews: <%= @lodging.reviews_link %> 
+<% end %>
+<% if @lodging.star_rating %>
+  Star Rating: <%= @lodging.star_rating %> Stars
+<% end %>
+<%= @lodging.lodging_type %> Reservation - from 
+  <%= @lodging.checkin_date.strftime("%m/%d/%y") %> 
+to <%= @lodging.checkout_date.strftime("%m/%d/%y") %>
+</div>
+<div>
+  More details:<br />
+  <div>
+    <% if @lodging.cover_photo %>
+      Main Photo: <%= @lodging.cover_photo %>
+    <% end %>
+  </div>  
+  <div>
+    <% if @lodging.notes %>
+      Notes: <%= @lodging.notes %>
+    <% end %>
+  </div>
+  <div>
+    <% if @lodging.checkin_time %>
+      Checkin Time: <%= @lodging.checkin_time.strftime("%I:%m%p") %>
+    <% end %>
+  </div>
+  <div>
+    <% if @lodging.contact %>
+      Contact: <%= @lodging.contact %>
+    <% end %>
+  </div>
+  <div>
+    <% if @lodging.address %>
+      Address: <%= @lodging.address %>
+    <% end %>
+  </div>
+  <div>
+    <% if @lodging.star_rating %>
+      Star Rating: <%= @lodging.star_rating %>
+    <% end %>
+  </div>
+</div>

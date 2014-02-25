@@ -6,6 +6,7 @@ feature "Cancelling Activities feature" do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:user2) { FactoryGirl.create(:user) }
   let!(:trip) { FactoryGirl.create(:trip, user: user) }
+  let!(:rsvp) { FactoryGirl.create(:rsvp, user: user, response: 'yes') }
   let!(:activity) { FactoryGirl.create(:activity, trip: trip, user: user) }
 
   before do

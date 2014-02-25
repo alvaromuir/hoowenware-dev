@@ -94,6 +94,11 @@ feature 'Creating Trips' do
     end
     
     expect(page).to have_content('Your trip has been created.')
+    expect(page).to have_content('Example Trip')
+    expect(page).to have_content (Time.now + 30.days).strftime("%m/%d/%y")
+    expect(page).to have_content (Time.now + 34.days).strftime("%m/%d/%y")
+    expect(page).to have_content('Anywhere, USA')
+
   end
 
 end

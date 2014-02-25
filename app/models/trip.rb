@@ -16,7 +16,7 @@ class Trip < ActiveRecord::Base
   has_many :posts,        :dependent => :destroy
   has_many :activities,   :dependent => :destroy
   has_many :transportations, :dependent => :destroy
-
+  has_many :lodgings, :dependent => :destroy
   
   scope :viewable_by, ->(user) do
     joins(:permissions).where(permissions: { action: "view", user_id: user.id })
@@ -56,6 +56,10 @@ class Trip < ActiveRecord::Base
 
   def travel_arrangements(user)
     return self.transportations.where(:user_id => user.id)
+  end
+
+  def lodging_arrangements(user)
+    return self.lodgings.where(:user_id => user.id)
   end
 
 end

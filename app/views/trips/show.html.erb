@@ -62,7 +62,12 @@
               <% else %>
                 <%= link_to 'Add travel itenerary', new_trip_transportation_path(:trip_id => @trip.id) %>
               <% end %>
-              | Room Details
+              |
+              <% if @trip.lodging_arrangements(current_user).present? %>
+              <%= link_to 'View lodging itenerary', trip_lodging_path(:trip_id => @trip.id) %>
+              <% else %>
+                <%= link_to 'Add lodging itenerary', new_trip_lodging_path(:trip_id => @trip.id) %>
+              <% end %>
             </span>
             <% end %>
           </div>

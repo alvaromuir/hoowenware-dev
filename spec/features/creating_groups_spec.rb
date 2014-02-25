@@ -21,5 +21,14 @@ feature 'Creating A Group feature' do
     click_link_or_button 'Create'
 
     expect(page).to have_content('This group has been created.')
+
+    visit groups_path
+    click_link_or_button 'Test Group'
+    expect(page).to have_content('Test Group')
+    expect(page).to have_content('10001')
+    expect(page).to have_content('Example Group Type')
+    expect(page).to have_content('https://facebook.com/example_group')
+    expect(page).to have_content('https://meetup.com/example_group')
+    expect(page).to have_content('gm12345')
   end
 end

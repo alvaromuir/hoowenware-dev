@@ -8,8 +8,8 @@ feature 'Editing Trips feature' do
 
 	before do
 		sign_in_as!(user)
-		visit '/'
-		click_link trip.title
+		visit trips_path
+		click_link_or_button trip.title
 	end
 	
 	scenario 'editing an trip' do
@@ -17,13 +17,17 @@ feature 'Editing Trips feature' do
 		click_link 'Settings'
 
 		fill_in 'Trip Title:', with: 'Revised Trip Title'
-		fill_in 'Start', with: '03/08/2013'
-		fill_in 'End', with: '03/10/2013'
+		fill_in 'Start', with: (trip.start_date + 2.days).strftime("%m/%d/%y") 
+		fill_in 'End', with: (trip.end_date + 2.days).strftime("%m/%d/%y") 
 		select 'public', from: 'Privacy'
 
 		click_button 'Update'
 
 		expect(page).to have_content('Your trip has been updated')
 
+		visit trips_path
+		click_link_or_button 'Revised Trip Title'
+
+		expect(page).to have_content('Revised Trip Title')
 	end
 end

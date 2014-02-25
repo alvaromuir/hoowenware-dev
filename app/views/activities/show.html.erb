@@ -15,7 +15,8 @@
   </div>
   <% end %>
 <% end %>
-<h4>Join <%= @activity.user %> on <%= @activity.date.to_date.strftime("%m/%d/%y") %><br />
+<h4><%= @activity.name %></h4>
+<p>Join <%= @activity.user %> on <%= @activity.date.to_date.strftime("%m/%d/%y") %></p>
 <small>category: <%= @activity.activity_type %></small>
 <br />
 <% if @activity.link %>

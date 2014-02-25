@@ -15,11 +15,14 @@ feature 'Editing Groups' do
 
   scenario 'authorized users can edit a groups details' do
     sign_in_as!(user)
-    visit "/groups/#{group.id}/edit"
+    visit edit_group_path(group)
     fill_in 'Group Name:', with: 'Revised Group Name'
     click_button 'Update'
 
     expect(page).to have_content('This group has been updated')
+
+    visit group_path(group)
+    expect(page).to have_content('Revised Group Name')
   end
 
   scenario 'unauthorized users can not edit a groups details' do

@@ -1,6 +1,6 @@
 # activity factory for integration testing
+
 FactoryGirl.define do
-  start = ''
   factory :activity do
     activity_type 'resturant'
     name 'An Example Activity'
@@ -9,11 +9,13 @@ FactoryGirl.define do
     address '1313 Anywhere Drive Anywhere, USA 00000'
     contact 'John Doe, johndoe@example.com'
     price 9.99
-    date Time.now + 30.days
-    start_time '7:00pm'
-    end_time '10:00pm'
+    date (Time.now + 30.days).strftime("%m/%d/%y") 
+    start_time ((Time.now + 30.days).change({:hour => 17, :min => 00, :sec => 00 }))
+                                    .strftime("%I:%m%p")
+    end_time ((Time.now + 30.days).change({:hour => 22, :min => 00, :sec => 00 }))
+                                    .strftime("%I:%m%p")
     notes 'An Example Activity with example notes'
-    deadline Time.now + 25.days
+    deadline (Time.now + 25.days).strftime("%m/%d/%y") 
     tickets_available 10
     deposit_required true
     cc_required true
