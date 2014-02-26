@@ -145,11 +145,13 @@ ActiveRecord::Schema.define(version: 20140224234418) do
   create_table "poll_responses", force: true do |t|
     t.integer  "user_id"
     t.hstore   "choices"
+    t.integer  "poll_id"
     t.integer  "trip_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "poll_responses", ["poll_id"], name: "index_poll_responses_on_poll_id", using: :btree
   add_index "poll_responses", ["trip_id"], name: "index_poll_responses_on_trip_id", using: :btree
   add_index "poll_responses", ["user_id"], name: "index_poll_responses_on_user_id", using: :btree
 

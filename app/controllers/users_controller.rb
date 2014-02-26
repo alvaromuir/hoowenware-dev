@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
   before_action :set_user
-  before_action :get_groups, :get_trips, :only => [:show, :update]
-  before_action :get_active_groups, :get_membership_ids, :only => [:edit, :update]
+  before_action :get_groups, :get_trips, only: [:show, :update]
+  before_action :get_active_groups, :get_membership_ids, only: [:edit, :update]
   before_filter :authenticate_user!, except: [:show]
-  before_filter :check_for_cancel, :only => [:update]
+  before_filter :store_return_page, only: [:edit, :cancel, :reactivate, 
+                                            :destroy]
+  before_filter :check_for_cancel, only: [:update]
 
 
   def show
@@ -14,6 +16,10 @@ class UsersController < ApplicationController
 
   def edit
     #set_user
+    if current_user != @user && !current_user.is_admin?
+      flash[:alert] = "You cannot make changes to this profile."
+      redirect_to root_path
+    end
   end
 
   def update
@@ -70,10 +76,18 @@ class UsersController < ApplicationController
       @trips = Trip.where(user_id: @user.id)
     end
 
+    def store_return_page
+      session[:return_to] ||= request.referer
+    end
+
     def check_for_cancel
       if params[:commit] == "Cancel"
         flash[:notice] = "Your changes have been cancelled."
-        redirect_to @user
+        if @user.new_record?
+          redirect_to root_path
+        else
+          redirect_to user_path(@user)
+        end
       end
     end
 end

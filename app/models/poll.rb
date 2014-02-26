@@ -4,7 +4,7 @@ class Poll < ActiveRecord::Base
 
   belongs_to :trip
   belongs_to :user
-  has_many :poll_responses
+  has_many :poll_responses, :dependent => :destroy
 
   def to_s
     return self.title

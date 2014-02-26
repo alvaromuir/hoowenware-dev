@@ -1,8 +1,11 @@
 class PollsController < ApplicationController
   before_action :set_trip
-  before_action :set_poll, :only => [:edit, :show, :update, :destroy]
+  before_action :set_poll, only: [:edit, :show, :update, :destroy,
+                                  :cancel, :reactivate]
   before_filter :authenticate_user!
-  before_filter :check_for_cancel, :only => [:create, :update]
+  before_filter :store_return_page, only: [:edit, :cancel, :reactivate, 
+                                            :destroy]
+  before_filter :check_for_cancel, only: [:create, :update]
 
   def dates
     #set_trip
@@ -41,21 +44,47 @@ class PollsController < ApplicationController
   end
 
   def show
+   # set_poll
   end
 
   def update
     # set_poll
-    if @trip.user_id == current_user.id or current_user.is_admin?
+    if @poll.user == current_user || !current_user.is_admin?
       if @poll.update(poll_params)
         flash[:notice] = "Your poll has been updated."
-        redirect_to edit_trip_path(@trip)
+        redirect_to trip_path(@trip)
       else
         flash[:alert] = "Your poll has not been updated."
         render "edit"
       end
     else
       flash[:alert] = "You must be an administrator of this trip to do that."
-      redirect_to edit_trip_path(@trip)
+      redirect_to trip_path(@trip)
+    end
+  end
+
+
+  def cancel
+    if current_user == @poll.user
+      @poll.update(is_active: false)
+
+      flash[:notice] = "Your poll have been cancelled."
+      redirect_to session.delete(:return_to)
+    else
+      flash[:alert] = "You cannot make changes to this poll."
+      redirect_to trips_path
+    end
+  end
+
+  def reactivate
+    if current_user == @poll.user
+      @poll.update(is_active: true)
+
+      flash[:notice] = "Your poll have been updated."
+      redirect_to session.delete(:return_to)
+    else
+      flash[:alert] = "You cannot make changes to this poll."
+      redirect_to trips_path
     end
   end
 
@@ -88,10 +117,14 @@ class PollsController < ApplicationController
      redirect_to edit_trip_path(@trip)
     end
 
+    def store_return_page
+      session[:return_to] ||= request.referer
+    end
+
     def check_for_cancel
       if params[:commit] == "Cancel"
         flash[:notice] = "Your changes have been cancelled."
-        redirect_to edit_trip_path(@trip)
+        redirect_to trip_path(@trip)
       end
     end
 end

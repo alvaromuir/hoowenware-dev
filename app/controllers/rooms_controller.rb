@@ -30,7 +30,7 @@ class RoomsController < ApplicationController
 
   def edit
     # set_room
-    if current_user != @room.user
+    if current_user != @room.user && !current_user.is_admin?
       flash[:alert] = "You cannot make changes to this room."
       redirect_to trip_lodging_path(:trip_id => @lodging.trip.id,
                                     :id => @lodging.id)
@@ -108,11 +108,19 @@ class RoomsController < ApplicationController
      redirect_to trips_path
     end
 
+    def store_return_page
+      session[:return_to] ||= request.referer
+    end
+
     def check_for_cancel
       if params[:commit] == "Cancel"
         flash[:notice] = "Your changes have been cancelled."
-        redirect_to trip_lodging_path(:trip_id => @lodging.trip.id,
-                                    :id => @lodging.id)
+        if @room.new_record?
+          redirect_to trip_lodging_path(:trip_id => @lodging.trip.id,
+                                      :id => @lodging.id)
+        else
+          redirect_to session.delete(:return_to)
+        end
       end
     end
 end

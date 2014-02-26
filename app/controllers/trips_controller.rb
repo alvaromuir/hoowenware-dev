@@ -2,6 +2,8 @@ class TripsController < ApplicationController
   before_action :authorize_admin!, only: [:destroy]
   before_action :set_trip, except: [:index, :new, :create]
   before_filter :authenticate_user!, except: [:show, :index]
+  before_filter :store_return_page, only: [:edit, :cancel, :reactivate, 
+                                            :destroy]
   before_filter :check_for_cancel, :only => [:create, :update]
 
   def index
@@ -39,6 +41,10 @@ class TripsController < ApplicationController
   def edit
     #set_trip
     @invitations = @trip.invitations
+    if current_user != @trip.user && !current_user.is_admin?
+      flash[:alert] = "You must be an administrator of this trip to do that."
+      redirect_to trips_path
+    end
   end
 
   def update
@@ -125,10 +131,18 @@ class TripsController < ApplicationController
      redirect_to trips_path
     end
 
+    def store_return_page
+      session[:return_to] ||= request.referer
+    end
+
     def check_for_cancel
       if params[:commit] == "Cancel"
         flash[:notice] = "Your changes have been cancelled."
-        redirect_to trips_path
+        if @trip
+          redirect_to trip_path(@trip)
+        else
+          redirect_to trips_path
+        end
       end
     end
 end

@@ -31,119 +31,147 @@
     </div>
     <% end %>
   <% end %>
+
   <div>
-  <% if @user.has_links?  %>
-    <h4> links: </h4>
-    <% @user.links.each do |web_link| %>
-      <% if web_link.id %>
-        <div>
-        <% if user_signed_in? %>
-          <% if @user == current_user or current_user.is_admin? %>
-            <%= link_to 'Delete' , 
-                user_web_link_path(id: web_link.id, user_id: @user.id),
-                method: :delete
-             %> |
+    <% if @user.has_links?  %>
+      <hr />
+      <h4> links: </h4>
+      <% @user.links.each do |web_link| %>
+        <% if web_link.id %>
+          <div>
+          <% if user_signed_in? %>
+            <% if @user == current_user or current_user.is_admin? %>
+              <%= link_to 'Delete' , 
+                  user_web_link_path(id: web_link.id, user_id: @user.id),
+                  method: :delete
+               %> |
+            <% end %>
           <% end %>
+          <%= link_to web_link.url, web_link.url, :target => "_blank" %>
+          </div>
         <% end %>
-        <%= link_to web_link.url, web_link.url, :target => "_blank" %>
-        </div>
       <% end %>
     <% end %>
-  <% end %>
-  <% if user_signed_in? %>
-    <% if @user == current_user or current_user.is_admin? %>
-      <h4> Add your social urls </h4>
-      <%= link_to "Add a link", new_user_web_link_path(@user) %>
-      <p><%= link_to "Edit Profile", edit_user_path(@user) %></p>
+
+    <% if user_signed_in? %>
+      <% if @user == current_user or current_user.is_admin? %>
+        <h4> Add your social urls </h4>
+        <%= link_to "Add a link", new_user_web_link_path(@user) %>
+        <p><%= link_to "Edit Profile", edit_user_path(@user) %></p>
+      <% end %>
     <% end %>
   </div>
-  <% end %>
+
 
   <div>
-  <% if @user.has_travel_plans? %>
-  <hr />
-  <h4>Travel Plans</h4>
-  <div class="travel-plans">
-    <% @user.travel_plans.each do |itenerary| %>
-      <% if itenerary.is_active? %>
-        <%= link_to itenerary.transportation_type, 
-                    trip_transportation_path(:id => itenerary.id,
-                                            :trip_id => itenerary.trip_id) %>
-      <% else %>
-        <%= link_to itenerary.transportation_type, 
-                    trip_transportation_path(:id => itenerary.id,
-                                            :trip_id => itenerary.trip_id) %>
-      <% end %>
-      travel to <%= itenerary.arrival_city %> on <%= itenerary.arrival_date %>
-      | 
-      <% if itenerary.is_active? %>
-        <%= link_to "Cancel this itenerary", 
-                      cancel_trip_transportation_path(:id => itenerary.id,
-                                                      :trip_id => itenerary.trip_id) %>
-
-      <% else %>
-      <%= link_to "Reactivate this itenerary", 
-                      reactivate_trip_transportation_path(:id => itenerary.id,
-                                                      :trip_id => itenerary.trip_id) %>
-      <% end %>
-    <% end %>
-  </div>
-  <% end %>
-  </div>
-
-  <div>
-  <% if @user.has_lodging_arrangements? %>
-  <hr />
-  <h4>Lodging Arrangments</h4>
-  <div class="lodging-arrangments">
-    <% @user.lodging_arrangements.each do |itenerary| %>
-      <% if itenerary.is_active? %>
-        <%= link_to itenerary.lodging_type, 
-                    trip_lodging_path(:id => itenerary.id,
-                                            :trip_id => itenerary.trip_id) %>
-      <% else %>
-        <%= link_to itenerary.lodging_type, 
-                    trip_lodging_path(:id => itenerary.id,
-                                            :trip_id => itenerary.trip_id) %>
-      <% end %>
-      lodging from <%= itenerary.checkin_date.strftime("%m/%d/%y") %>
-      until <%= itenerary.checkout_date.strftime("%m/%d/%y") %>
-      | 
-      <% if itenerary.is_active? %>
-        <%= link_to "Cancel this itenerary", 
-                      cancel_trip_lodging_path(:id => itenerary.id,
+    <% if @user.has_travel_plans? %>
+    <hr />
+    <h4>Travel Plans</h4>
+    <div class="travel-plans">
+      <% @user.travel_plans.each do |itenerary| %>
+        <% if itenerary.is_active? %>
+          <%= link_to itenerary.transportation_type, 
+                      trip_transportation_path(:id => itenerary.id,
                                               :trip_id => itenerary.trip_id) %>
+        <% else %>
+          <%= link_to itenerary.transportation_type, 
+                      trip_transportation_path(:id => itenerary.id,
+                                              :trip_id => itenerary.trip_id) %>
+        <% end %>
+        travel to <%= itenerary.arrival_city %> on <%= itenerary.arrival_date %>
+        | 
+        <% if itenerary.is_active? %>
+          <%= link_to "Cancel this itenerary", 
+                        cancel_trip_transportation_path(:id => itenerary.id,
+                                                        :trip_id => itenerary.trip_id) %>
 
-      <% else %>
-      <%= link_to "Reactivate this itenerary", 
-                      reactivate_trip_lodging_path(:id => itenerary.id,
-                                                  :trip_id => itenerary.trip_id) %>
+        <% else %>
+        <%= link_to "Reactivate this itenerary", 
+                        reactivate_trip_transportation_path(:id => itenerary.id,
+                                                        :trip_id => itenerary.trip_id) %>
+        <% end %>
       <% end %>
+    </div>
     <% end %>
   </div>
-  <% end %>
-  </div>
+
   <div>
-  <% if @user.has_activities? %>
-  <hr />
-  <h4>Activities</h4>
-  <div class="activities">
-    <% @user.activities.each do |activity| %>
-      <%= link_to activity, trip_activity_path(:id => activity.id,
-                                                :trip_id => activity.id) %>
-      on <%= activity.date %> |
-      <% if activity.is_active? %>
-        <%= link_to "Cancel this activity", 
-                    cancel_trip_activity_path(:id => activity.id,
-                                                    :trip_id => activity.trip.id) %>
-      <% else %>
-        <%= link_to "Reactivate this activity", 
-                    reactivate_trip_activity_path(:id => activity.id,
-                                                    :trip_id => activity.trip.id) %>
+    <% if @user.has_lodging_arrangements? %>
+    <hr />
+    <h4>Lodging Arrangments</h4>
+    <div class="lodging-arrangments">
+      <% @user.lodging_arrangements.each do |itenerary| %>
+        <% if itenerary.is_active? %>
+          <%= link_to itenerary.lodging_type, 
+                      trip_lodging_path(:id => itenerary.id,
+                                              :trip_id => itenerary.trip_id) %>
+        <% else %>
+          <%= link_to itenerary.lodging_type, 
+                      trip_lodging_path(:id => itenerary.id,
+                                              :trip_id => itenerary.trip_id) %>
+        <% end %>
+        lodging from <%= itenerary.checkin_date.strftime("%m/%d/%y") %>
+        until <%= itenerary.checkout_date.strftime("%m/%d/%y") %>
+        | 
+        <% if itenerary.is_active? %>
+          <%= link_to "Cancel this itenerary", 
+                        cancel_trip_lodging_path(:id => itenerary.id,
+                                                :trip_id => itenerary.trip_id) %>
+
+        <% else %>
+        <%= link_to "Reactivate this itenerary", 
+                        reactivate_trip_lodging_path(:id => itenerary.id,
+                                                    :trip_id => itenerary.trip_id) %>
+        <% end %>
       <% end %>
+    </div>
     <% end %>
   </div>
-  <% end %>
-  <div>
 
+  <div>
+    <% if @user.has_activities? %>
+    <hr />
+    <h4>Activities</h4>
+    <div class="activities">
+      <% @user.activities.each do |activity| %>
+        <%= link_to activity, trip_activity_path(:id => activity.id,
+                                                  :trip_id => activity.id) %>
+        on <%= activity.date %> |
+        <% if activity.is_active? %>
+          <%= link_to "Cancel this activity", 
+                      cancel_trip_activity_path(:id => activity.id,
+                                                      :trip_id => activity.trip.id) %>
+        <% else %>
+          <%= link_to "Reactivate this activity", 
+                      reactivate_trip_activity_path(:id => activity.id,
+                                                      :trip_id => activity.trip.id) %>
+        <% end %>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+
+  <div>
+    <% if @user.has_generic_polls? %>
+    <hr />
+    <h4>Polls</h4>
+    <div class="polls">
+      <% @user.polls.each do |poll| %>
+        <div>
+        <%= link_to poll, trip_poll_path(:id => poll.id,
+                                          :trip_id => poll.id) %>
+        for <%= link_to poll.trip, trip_path(poll.trip) %>
+        <% if user_signed_in? && poll.user == current_user %>
+        | <%= link_to "Edit this poll", edit_trip_poll_path(:trip_id => poll.trip.id, :id => poll.id) %>
+        | <% if poll.is_active? %>
+          <%= link_to "Cancel this poll", cancel_trip_poll_path(:trip_id => poll.trip.id, :id => poll.id) %>
+          <% else %>
+          <%= link_to "Reactivate this poll", reactivate_trip_poll_path(:trip_id => poll.trip.id, :id => poll.id) %>
+          <% end %>
+        | View Results
+        <% end %>
+      <% end %>
+      </div>
+    </div>
+    <% end %>
   </div>

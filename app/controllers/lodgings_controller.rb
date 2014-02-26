@@ -71,6 +71,7 @@ class LodgingsController < ApplicationController
       redirect_to trips_path
     end
   end
+  
   private
   
     def lodging_params

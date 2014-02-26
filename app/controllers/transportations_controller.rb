@@ -2,6 +2,8 @@ class TransportationsController < ApplicationController
   before_filter :authenticate_user!, except: [:show]
   before_filter :set_trip
   before_filter :set_transportation, except: [:new, :create]
+  before_filter :store_return_page, only: [:edit, :cancel, :reactivate, 
+                                            :destroy]
   before_filter :check_for_cancel, :only => [:create, :update]
   
   def new
@@ -26,8 +28,8 @@ class TransportationsController < ApplicationController
 
   def edit
     # set_transportation
-    if current_user.id != @transportation.user_id
-      flash[:alert] = "You cannot make changes to this trip."
+    if current_user != @transportation.user && !current_user.is_admin?
+      flash[:alert] = "You cannot make changes to this travel arrangement."
       redirect_to @trip
     end
   end
@@ -42,7 +44,7 @@ class TransportationsController < ApplicationController
         render "edit"
       end
     else
-      flash[:alert] = "You cannot make changes to this trip."
+      flash[:alert] = "You cannot make changes to this travel arrangement."
       redirect_to @trip
     end
   end
@@ -93,10 +95,18 @@ class TransportationsController < ApplicationController
      redirect_to @trip
     end
 
+    def store_return_page
+      session[:return_to] ||= request.referer
+    end
+
     def check_for_cancel
       if params[:commit] == "Cancel"
         flash[:notice] = "Your changes have been cancelled."
-        redirect_to @trip
+        if @trip.new_record?
+          redirect_to trips_path
+        else
+          redirect_to trip_path(@trip)
+        end
       end
     end
 end

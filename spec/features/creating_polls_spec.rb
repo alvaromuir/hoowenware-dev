@@ -61,15 +61,6 @@ feature 'Creating a Date Poll for a Trip' do
     click_button 'Cancel'
 
     expect(page).to have_content('Your changes have been cancelled.')
-    current_url.should eq edit_trip_url(trip)
-
-    within '.new-trip-location' do
-      click_link 'polls'
-    end
-    
-    click_button 'Cancel'
-
-    expect(page).to have_content('Your changes have been cancelled.')
-    current_url.should eq edit_trip_url(trip)
+    current_url.should eq trip_url(trip)
   end
 end

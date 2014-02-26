@@ -1,13 +1,42 @@
   <% page_title(@trip.title, "Trips") %>
   <div id="trip">
-    <h4><%= @trip.title %> (<%= @trip.hash_tag %>)</h4>
+    <h4><%=link_to @trip, trip_path(@trip) %> (<%= @trip.hash_tag %>)</h4>
     <span class='creator'>
       Planned by <%= link_to @trip.user, @trip.user %>
     </span>
+
+
+    <% if user_signed_in? %>
+      <% if @trip.user_id == current_user.id or current_user.is_admin? %>
+        <div>
+        <%= link_to "Settings", edit_trip_path(@trip) %>
+         
+          <% if @trip.is_active? %>
+            <%= link_to "Cancel this trip", cancel_trip_path(@trip) %>
+          <% else %>
+            <%= link_to "Reactivate this trip", reactivate_trip_path(@trip) %>
+          <% end %>
+        <% if current_user && current_user.is_admin? %>  
+          <%= link_to "Delete this trip",
+                trip_path(@trip),
+                method: :delete,
+                data: { confirm:
+                        "Are you sure you want to cancel this trip?"
+                      }
+          %>
+        <% end %>
+        </div>
+      <% end %>
+    <% end %>
+
+    
     <p class='location'>(<%= @trip.location %>)
       <% if @trip.has_location_polls? %>
         <% @trip.location_polls.each do |poll| %>
-          or ( <%= poll.location %> )
+          or ( <%= poll.location %> | 
+                <%= link_to "vote for this location", 
+                    trip_poll_path(:trip_id => poll.trip_id,
+                                  :id => poll.id) %>)
         <% end %>
       <% end %>
     </p>
@@ -23,7 +52,9 @@
               <%= poll.start_date.strftime("%m/%d/%y") %> 
               |
               <%= poll.end_date.strftime("%m/%d/%y") %> 
-              )
+              | <%= link_to "vote for these dates", 
+                    trip_poll_path(:trip_id => poll.trip_id,
+                                  :id => poll.id) %>)
         <% end %>
       <% end %>
     </p>
@@ -127,9 +158,17 @@
             <div>
             Poll from <%= link_to poll.user, user_path(poll.user) %>:
             <%= link_to poll, trip_poll_path(:trip_id => @trip.id, :id => poll.id) %>
+            <% if user_signed_in? && poll.user == current_user %>
+            | <%= link_to "Edit this poll", edit_trip_poll_path(:trip_id => @trip.id, :id => poll.id) %>
+            | <% if poll.is_active? %>
+              <%= link_to "Cancel this poll", cancel_trip_poll_path(:trip_id => @trip.id, :id => poll.id) %>
+              <% else %>
+              <%= link_to "Reactivate this poll", reactivate_trip_poll_path(:trip_id => @trip.id, :id => poll.id) %>
+              <% end %>
+            | View Results
+            <% end %>
             </div>
           <% end %>
-        <% else %>
         <% end %>
         <div>
           <% if user_signed_in? %>
@@ -209,27 +248,6 @@
       <% end  %>
     </div>
 
-    
-    <% if user_signed_in? %>
-      <% if @trip.user_id == current_user.id or current_user.is_admin? %>
-        <%= link_to "Settings", edit_trip_path(@trip) %>
-         
-          <% if @trip.is_active? %>
-            <%= link_to "Cancel this trip", cancel_trip_path(@trip) %>
-          <% else %>
-            <%= link_to "Reactivate this trip", reactivate_trip_path(@trip) %>
-          <% end %>
-        <% if current_user && current_user.is_admin? %>  
-          <%= link_to "Delete this trip",
-                trip_path(@trip),
-                method: :delete,
-                data: { confirm:
-                        "Are you sure you want to cancel this trip?"
-                      }
-          %>
-        <% end %>
-      <% end %>
-    <% end %>
   </div>
   <% if @invitations.count > 0 %>
     <hr />

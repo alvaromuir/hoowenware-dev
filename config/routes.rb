@@ -24,7 +24,11 @@ HoowenwareDev::Application.routes.draw do
         get 'dates'
         get 'locations'
         get 'generic'
+        get 'cancel'
+        get 'reactivate'
+        get 'respond'
       end
+      resources :poll_responses, only: [:new]
     end
     
     resources :posts, only: [:create]

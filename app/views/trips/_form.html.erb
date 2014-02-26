@@ -27,23 +27,23 @@
       <div>
         <%= f.label :end_date, 'End:' %><br />
         <%= f.text_field :end_date %>
+        <span class="new-date-poll">
+          <% if ! @trip.new_record? %>
+          <%= link_to "polls", dates_trip_poll_path(:trip_id => @trip.id) %>
+          <% end %>
+        </span>
       </div>
-      <span class="new-date-poll">
-        <% if ! @trip.new_record? %>
-        <%= link_to "polls", dates_trip_poll_path(:trip_id => @trip.id) %>
-        <% end %>
-      </span>
     </div>
     <div class="new-trip-location">
       <div>
         <%= f.label :location, 'Location:' %><br />
         <%= f.text_field :location %>
+        <span class="new-location-poll">
+          <% if ! @trip.new_record? %>
+          <%= link_to  "polls", locations_trip_poll_path(:trip_id => @trip.id) %><br />
+          <% end %>
+        </span>
       </div>
-      <span class="new-location-poll">
-        <% if ! @trip.new_record? %>
-        <%= link_to  "polls", locations_trip_poll_path(:trip_id => @trip.id) %><br />
-        <% end %>
-      </span>
     </div>
     <br />
     <div>

@@ -5,11 +5,12 @@ class User < ActiveRecord::Base
                                                 :google, :yahoo, :windowslive,
                                                 :github, :meetup, :dropbox]
 
-  has_many :memberships, :dependent => :destroy
-  has_many :groups, :through => :memberships
+  has_many :memberships,    :dependent => :destroy
+  has_many :groups,         :through => :memberships
   has_many :trips
   has_many :permissions
-  has_many :poll_responses
+  has_many :polls,          :dependent => :destroy
+  has_many :poll_responses, :dependent => :destroy
   has_many :invitations
   has_many :authentications
   has_many :web_links
@@ -148,6 +149,18 @@ class User < ActiveRecord::Base
 
   def lodging_arrangements
     @lodgings = Lodging.where(:user_id => self.id)
+  end
+
+  def has_generic_polls?
+    @polls = Poll.where(:user_id => self.id, :poll_type => 'generic')
+    if @polls.count > 0
+      return true
+    end
+    return false
+  end
+
+  def generic_polls
+    @polls = Poll.where(:user_id => self.id, :poll_type => 'generic')
   end
 
 

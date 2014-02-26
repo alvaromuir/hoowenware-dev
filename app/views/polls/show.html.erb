@@ -1,9 +1,9 @@
 <h4><%= @poll %></h4>
 
 Question:<br />
-
-<% if @poll.poll_type == 'dates' %>
-Would you prefer to go on <%= @poll.start_date %> through <%= @poll.end_date %>?
+<% if @poll.poll_type == 'date' %>
+Would you prefer to go on <%= @poll.start_date.strftime("%m/%d/%y") %> 
+through <%= @poll.end_date.strftime("%m/%d/%y") %>?
 <% end %>
 
 <% if @poll.poll_type == 'location' %>
@@ -14,3 +14,11 @@ Would you prefer to go to <%= @poll.location %>?
 <% if @poll.poll_type == 'generic' %>
   <%= @poll.generic_question %>
 <% end %>
+<div>
+  <%= link_to "Yes", new_trip_poll_poll_response_path(:trip_id => @poll.trip_id,
+                                              :poll_id => @poll.id,
+                                              :choices => 'yes') %>
+  <%= link_to "No", new_trip_poll_poll_response_path(:trip_id => @poll.trip_id,
+                                              :poll_id => @poll.id,
+                                              :choices => 'no') %>
+</div>

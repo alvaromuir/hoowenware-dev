@@ -14,6 +14,7 @@ feature "Editing a room" do
   end
 
   after do
+    logout(:user)
     Warden.test_reset!
   end
 
@@ -36,7 +37,7 @@ feature "Editing a room" do
     click_link_or_button 'Update Room'
 
     expect(page).to have_content('Your room has been updated.')
-    logout(:user)
+
   end
 
   scenario 'non-room owners can not edit a room' do
@@ -53,6 +54,5 @@ feature "Editing a room" do
                                       :id => room.id)
 
     expect(page).to have_content('You cannot make changes to this room.')
-    logout(:user2)
   end
 end

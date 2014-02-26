@@ -25,6 +25,5 @@ feature "Generic Poll Viewing" do
     end
     
     expect(page).to have_content(generic_poll.generic_question)
-
   end
 end

@@ -1,7 +1,5 @@
-<h4><%= @trip.title %> Settings</h4>
+<h4><%=link_to @trip, trip_path(@trip) %> Settings</h4>
 <%= render "form" %>
-
-
 <hr />
 <div class="invited">
   <p>Invited (<%= @invitations.count %>)</p>
