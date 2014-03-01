@@ -35,11 +35,15 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-    <% flash.each do |key, value| %>
-    <div class='flash' id='<%= key %>'>
-      <%= value %>
+  <div class="container">
+    <div class="row"> 
+     <% flash.each do |key, value| %>
+      <div class='flash center-block alert alert-warning alert-dismissable' style="width:50%" id='<%= key %>'>
+        <%= value %>
+      </div>
+     <% end %>
     </div>
-    <% end %>
+  </div>
     <div class="container">
     </div>
     <%= yield %>
