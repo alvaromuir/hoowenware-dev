@@ -7,7 +7,7 @@ Devise.setup do |config|
   if Rails.env.development? or Rails.env.test?
       config.secret_key = ('x' * 128)
   else
-      config.secret_key = ENV['SECRET_KEY']
+      config.secret_key = ENV['SECRET_KEY'] || SecureRandom.uuid.gsub('-','').upcase
   end
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
