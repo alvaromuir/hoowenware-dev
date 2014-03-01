@@ -13,7 +13,7 @@ module HoowenwareDev
     #add custom validators path
     config.autoload_paths += %W["#{config.root}/app/validators/"]
     config.assets.paths << "#{Rails}/vendor/assets/fonts"
-    # config/application.rb
+    config.assets.enabled = true
     config.assets.initialize_on_precompile = false
   end
 end
