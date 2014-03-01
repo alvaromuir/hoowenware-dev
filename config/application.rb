@@ -12,5 +12,6 @@ module HoowenwareDev
     I18n.enforce_available_locales = false
     #add custom validators path
     config.autoload_paths += %W["#{config.root}/app/validators/"]
+    config.assets.paths << "#{Rails}/vendor/assets/fonts"
   end
 end
